@@ -1,8 +1,10 @@
+import { AnalysisSVG } from "@components/SVGIcons/AnalysisSVG";
 import { DashboardSVG } from "@components/SVGIcons/DashboardSVG";
-import { HomeSVG } from "@components/SVGIcons/HomeSVG";
 import TabsDashboard from "@components/TabsDashboard";
 import { capitalize } from "@utils/tools";
 import { ReactElement } from "react";
+
+import { AnalysisPane } from "./components/AnalysisPane";
 
 const MenuItemComponent: IComponent<{
   name: string;
@@ -28,9 +30,13 @@ const Dashboard: IComponent = () => {
       ),
       render: <div>Copy of Dashboard</div>,
     },
+    {
+      menuItem: <MenuItemComponent name="analysis" icon={<AnalysisSVG />} />,
+      render: <AnalysisPane />,
+    },
   ];
   return (
-    <div className="dashboard after:relative z-10 w-full rounded-3xl">
+    <div className="dashboard after:relative z-10 w-full rounded-3xl font-serif">
       <TabsDashboard panes={panes} />
     </div>
   );
