@@ -1,5 +1,3 @@
-import { Select } from "@material-tailwind/react";
-
 export const Alert: IComponent = () => {
   return (
     <div className="p-8">
@@ -10,7 +8,7 @@ export const Alert: IComponent = () => {
 
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-sans	font-semibold pb-6 text-center">
-          Alert history{" "}
+          Alert history
         </h1>
 
         <table className="table-auto w-full	font-sans">
