@@ -1,17 +1,14 @@
-import { ChandelierSVG } from "@components/SVGIcons/ChandelierSVG";
-import { FanSVG } from "@components/SVGIcons/FanSVG";
-import { WarningHighSVG } from "@components/SVGIcons/WarningHighSVG";
-import { WarningSVG } from "@components/SVGIcons/WarningSVG";
-import { WateringSVG } from "@components/SVGIcons/WateringSVG";
+import Image from "next/image";
 import React from "react";
-
 import styles from "../../styles/control.module.scss";
 
 export const ControlPane: IComponent = () => {
   const fanDivice = () => {
     return (
       <div className={styles.rectangle + " " + styles.bgFan}>
-        <FanSVG className={styles.images} width="70%" height="70%" />
+        <div className="text-center">
+          <Image src="/FanSpeed.png" width={120} height={120}></Image>
+        </div>
         <label className={styles.switch}>
           <input type="checkbox" />
           <span className={styles.slider + " " + styles.round}></span>
@@ -23,7 +20,9 @@ export const ControlPane: IComponent = () => {
   const chandelierDivice = () => {
     return (
       <div className={styles.rectangle + " " + styles.bgChandelier}>
-        <ChandelierSVG className={styles.images} width="70%" height="70%" />
+        <div className="text-center">
+          <Image src="/Chandelier.png" width={120} height={120}></Image>
+        </div>
         <label className={styles.switch}>
           <input type="checkbox" />
           <span className={styles.slider + " " + styles.round}></span>
@@ -43,10 +42,14 @@ export const ControlPane: IComponent = () => {
           styles.rectangleCenter
         }
       >
-        <WateringSVG className={styles.images} width="70%" height="70%" />
+        <div className="text-center">
+          <Image src="/Irrigation.png" width={120} height={120}></Image>
+        </div>
         <div className={styles.wateringWarningText}>
-          <WarningSVG className={styles.images} width="15%" height="15%" />
-          <p>Low</p>
+          <div className="inline-flex text-center mt-5">
+            <Image src="/Error.png" width={40} height={20}></Image>
+            <p className="text-lg">Low</p>
+          </div>
         </div>
       </div>
     );
@@ -63,10 +66,14 @@ export const ControlPane: IComponent = () => {
           styles.rectangleCenter
         }
       >
-        <WateringSVG className={styles.images} width="70%" height="70%" />
+        <div className="text-center">
+          <Image src="/Irrigation.png" width={120} height={120}></Image>
+        </div>
         <div className={styles.wateringWarningText}>
-          <WarningHighSVG className={styles.images} width="15%" height="15%" />
-          <p>Watering</p>
+          <div className="inline-flex text-center mt-5">
+            <Image src="/Garden.png" width={40} height={20}></Image>
+            <p className="text-lg">Watering</p>
+          </div>
         </div>
       </div>
     );
@@ -83,7 +90,7 @@ export const ControlPane: IComponent = () => {
         <span className={styles.whiteSpace}></span>
         {chandelierDivice()}
       </div>
-      <div className={styles.rowFeatureCenter}>{wateringWarningLow()}</div>
+      <div className={styles.rowFeatureCenter}>{wateringWarningHigh()}</div>
     </div>
   );
 };
