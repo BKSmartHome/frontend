@@ -1,8 +1,12 @@
+import "./styles.module.scss";
+
 import { DashboardSVG } from "@components/SVGIcons/DashboardSVG";
 import { HomeSVG } from "@components/SVGIcons/HomeSVG";
 import TabsDashboard from "@components/TabsDashboard";
 import { capitalize } from "@utils/tools";
 import { ReactElement } from "react";
+
+import { Alert } from "./components/alert";
 
 const MenuItemComponent: IComponent<{
   name: string;
@@ -23,10 +27,8 @@ const Dashboard: IComponent = () => {
       render: <div>Dashboard</div>,
     },
     {
-      menuItem: (
-        <MenuItemComponent name="copy of dashboard" icon={<DashboardSVG />} />
-      ),
-      render: <div>Copy of Dashboard</div>,
+      menuItem: <MenuItemComponent name="Alert" icon={<DashboardSVG />} />,
+      render: <Alert />,
     },
   ];
   return (
