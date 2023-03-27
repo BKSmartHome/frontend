@@ -5,6 +5,7 @@ import { capitalize } from "@utils/tools";
 import { ReactElement } from "react";
 
 import { ControlPane } from "./components/ControlPane";
+import { DashboardPane } from "./components/DashboardPane";
 
 const MenuItemComponent: IComponent<{
   name: string;
@@ -22,7 +23,7 @@ const Dashboard: IComponent = () => {
   const panes = [
     {
       menuItem: <MenuItemComponent name="dashboard" icon={<DashboardSVG />} />,
-      render: <div>Dashboard</div>,
+      render: <DashboardPane />,
     },
     {
       menuItem: (

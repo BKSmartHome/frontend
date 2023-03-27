@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import styles from "../../styles/control.module.scss";
+import styles from "../../styles/control.module.css";
 
 export const ControlPane: IComponent = () => {
   const fanDivice = () => {
