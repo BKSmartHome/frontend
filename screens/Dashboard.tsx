@@ -31,7 +31,7 @@ const Dashboard: IComponent = () => {
       render: <div>Copy of Dashboard</div>,
     },
     {
-      menuItem: <MenuItemComponent name="analysis" icon={<SettingSVG />} />,
+      menuItem: <MenuItemComponent name="control" icon={<SettingSVG />} />,
       render: <ControlPane />,
     },
   ];
