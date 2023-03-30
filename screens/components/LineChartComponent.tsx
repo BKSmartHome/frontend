@@ -94,7 +94,7 @@ export const LineChart: IComponent<{
           </Select>
         </div>
       </div>
-      <Line data={chartData} options={options as any} />;
+      <Line data={chartData} options={options} />;
     </div>
   );
 };

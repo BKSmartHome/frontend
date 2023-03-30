@@ -1,0 +1,177 @@
+.rectangle {
+  display: grid;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-top: 30px;
+}
+
+.centerRec {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rectangleBurnDetection {
+  display: grid;
+  width: 50%;
+  height: 200px;
+  margin-top: 30px;
+}
+
+/* background color */
+.bgTemperature {
+  border: 1px solid #8EA5B4;
+  border-radius: 10px;
+  background-color: #8EA5B4;
+}
+.bgBrightness {
+  border: 1px solid #F0F9FF;
+  border-radius: 10px;
+  background-color: #F0F9FF;
+}
+.bgHumidityLow {
+  border: 1px solid #BCD5AC;
+  border-radius: 10px;
+  background-color: #BCD5AC;
+}
+.bgHumidityHigh {
+  border: 1px solid #59CC0E;
+  border-radius: 10px;
+  background-color: #59CC0E;
+}
+.bgWarningBurn {
+  border: 1px solid #EFE9FF;
+  border-radius: 10px;
+  background-color: #EFE9FF;
+}
+.bgRealizePerson {
+  border: 1px solid #C8B4FF;
+  border-radius: 10px;
+  background-color: #C8B4FF;
+}
+
+
+
+.rectangle {
+  display: block;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 200px;
+  margin-top: 30px;
+}
+
+.rowFeature {
+  display: flex;
+}
+
+.rowFeatureCenter {
+  display: grid;
+  position: relative;
+}
+
+.rectangleCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.whiteSpace {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Warning Water */
+
+.wateringWarningText {
+  display: inline;
+}
+
+/* Background color */
+.bgFan {
+  border: 1px solid #8EA5B4;
+  border-radius: 10px;
+  background-color: #8EA5B4;
+}
+.bgChandelier {
+  border: 1px solid #F0F9FF;
+  border-radius: 10px;
+  background-color: #F0F9FF;
+}
+.bgWateringWarningLow {
+  border: 1px solid #BCD5AC;
+  border-radius: 10px;
+  background-color: #BCD5AC;
+}
+.bgWateringWarningHigh {
+  border: 1px solid #59CC0E;
+  border-radius: 10px;
+  background-color: #59CC0E;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #59CC0E;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #59CC0E;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

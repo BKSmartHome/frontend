@@ -11,22 +11,21 @@ import { useCallback } from "react";
 import { LineChart } from "./LineChartComponent";
 
 export const AnalysisPane: IComponent = () => {
-  const tabs = [
-    {
-      label: "Temperature",
-      value: "temperature",
-    },
-    {
-      label: "Moisture",
-      value: "moisture",
-    },
-    {
-      label: "Light",
-      value: "light",
-    },
-  ];
-
   const renderChart = useCallback(() => {
+    const tabs = [
+      {
+        label: "Temperature",
+        value: "temperature",
+      },
+      {
+        label: "Moisture",
+        value: "moisture",
+      },
+      {
+        label: "Light",
+        value: "light",
+      },
+    ];
     return (
       <Tabs value="temperature">
         <TabsHeader
@@ -62,7 +61,7 @@ export const AnalysisPane: IComponent = () => {
         </TabsBody>
       </Tabs>
     );
-  }, [tabs]);
+  }, []);
   return (
     <div className="p-8">
       <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
