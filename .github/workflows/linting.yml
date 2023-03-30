@@ -2,7 +2,7 @@ name: Linting
 on:
   push:
     branches:
-      - staging
+      - main
   pull_request:
     branches:
       - main
@@ -27,7 +27,6 @@ jobs:
         run: npm install -g yarn eslint
 
       - name: Install Dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Run Eslint Checking

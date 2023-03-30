@@ -1,10 +1,13 @@
 import { AnalysisSVG } from "@components/SVGIcons/AnalysisSVG";
 import { DashboardSVG } from "@components/SVGIcons/DashboardSVG";
+import { SettingSVG } from "@components/SVGIcons/SettingSVG";
 import TabsDashboard from "@components/TabsDashboard";
 import { capitalize } from "@utils/tools";
 import { ReactElement } from "react";
 
 import { AnalysisPane } from "./components/AnalysisPane";
+import { ControlPane } from "./components/ControlPane";
+import { DashboardPane } from "./components/DashboardPane";
 
 const MenuItemComponent: IComponent<{
   name: string;
@@ -22,13 +25,11 @@ const Dashboard: IComponent = () => {
   const panes = [
     {
       menuItem: <MenuItemComponent name="dashboard" icon={<DashboardSVG />} />,
-      render: <div>Dashboard</div>,
+      render: <DashboardPane />,
     },
     {
-      menuItem: (
-        <MenuItemComponent name="copy of dashboard" icon={<DashboardSVG />} />
-      ),
-      render: <div>Copy of Dashboard</div>,
+      menuItem: <MenuItemComponent name="control" icon={<SettingSVG />} />,
+      render: <ControlPane />,
     },
     {
       menuItem: <MenuItemComponent name="analysis" icon={<AnalysisSVG />} />,
