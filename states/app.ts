@@ -12,5 +12,4 @@ const useAppStore = create<IAppState>((set) => ({
   },
 }));
 
-
 export { useAppStore };

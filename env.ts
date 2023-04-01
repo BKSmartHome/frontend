@@ -15,7 +15,5 @@ const { publicRuntimeConfig } = getConfig();
 /**
  * True if running in production
  */
-export const {
-  IS_DEV = false,
-  TEAM_NAME,
-} = publicRuntimeConfig as IRuntimeConfig;
+export const { IS_DEV = false, TEAM_NAME } =
+  publicRuntimeConfig as IRuntimeConfig;
