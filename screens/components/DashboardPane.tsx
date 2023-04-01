@@ -11,7 +11,7 @@ interface DashboardDataProps {
 }
 
 const wrapperStyles =
-  "rounded-lg flex items-center justify-center h-full gap-4";
+  "rounded-lg flex items-center justify-center h-full gap-2";
 
 export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
@@ -33,12 +33,12 @@ export const DashboardPane: IComponent = () => {
           <Image
             className=""
             src="/Temperature.png"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
             alt="temperature"
           ></Image>
         </div>
-        <div className="text-5xl font-bold font-sans">
+        <div className="text-4xl font-bold font-sans">
           {data?.temperature}&#186;C
         </div>
       </div>
@@ -52,12 +52,12 @@ export const DashboardPane: IComponent = () => {
           <Image
             className=""
             src="/Light.png"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
             alt="temperature"
           ></Image>
         </div>
-        <div className="text-5xl font-bold font-sans text-black">
+        <div className="text-4xl font-bold font-sans text-black">
           {data?.light}
         </div>
       </div>
@@ -73,18 +73,18 @@ export const DashboardPane: IComponent = () => {
         } rounded-lg h-full flex items-center justify-center`}
       >
         <div>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-2">
             <div className="wrapper">
               <Image
                 className=""
                 src="/Plant.png"
-                width={100}
-                height={100}
+                width={80}
+                height={80}
                 alt="plant"
               ></Image>
             </div>
             {data?.humidity && (
-              <div className="text-5xl font-bold font-sans">
+              <div className="text-4xl font-bold font-sans">
                 {data?.humidity * 100} %
               </div>
             )}
@@ -112,12 +112,12 @@ export const DashboardPane: IComponent = () => {
           <Image
             className=""
             src="/Fire.png"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
             alt="temperature"
           ></Image>
         </div>
-        <div className="text-5xl font-bold font-sans text-black">
+        <div className="text-4xl font-bold font-sans text-black">
           {data?.burn}
         </div>
       </div>
@@ -130,12 +130,12 @@ export const DashboardPane: IComponent = () => {
           <Image
             className=""
             src="/Denied.png"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
             alt="temperature"
           ></Image>
         </div>
-        <div className="text-5xl font-bold font-sans text-black">
+        <div className="text-4xl font-bold font-sans text-black">
           {data?.detection}
         </div>
       </div>

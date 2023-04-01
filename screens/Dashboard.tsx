@@ -5,6 +5,7 @@ import TabsDashboard from "@components/TabsDashboard";
 import { capitalize } from "@utils/tools";
 import { ReactElement } from "react";
 
+import { AlertPane } from "./components/AlertPane";
 import { AnalysisPane } from "./components/AnalysisPane";
 import { ControlPane } from "./components/ControlPane";
 import { DashboardPane } from "./components/DashboardPane";
@@ -34,6 +35,10 @@ const Dashboard: IComponent = () => {
     {
       menuItem: <MenuItemComponent name="analysis" icon={<AnalysisSVG />} />,
       render: <AnalysisPane />,
+    },
+    {
+      menuItem: <MenuItemComponent name="Alert" icon={<DashboardSVG />} />,
+      render: <AlertPane />,
     },
   ];
   return (
