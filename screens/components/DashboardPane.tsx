@@ -26,6 +26,10 @@ export const DashboardPane: IComponent = () => {
     setData(initialData);
   }, []);
 
+  // useEffect(()=>{
+
+  // },[])
+
   const TemperatureComponent = useMemo(() => {
     return (
       <div className={`bg-temperature ${wrapperStyles}`}>
