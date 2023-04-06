@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { useEffect, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -23,6 +24,7 @@ ChartJS.register(
 export const LineChart: IComponent<{
   monitorType: string;
 }> = ({ monitorType = "temperature" }) => {
+  const [datasets, setDatasets] = useState<any>([]);
   const options = {
     scales: {
       y: {
@@ -63,19 +65,34 @@ export const LineChart: IComponent<{
     },
   };
   //TODO: fetch data here
-  const chartData = {
-    labels: ["Mon", "Tue", "Wed", "Thurs", "Fri", "Stat", "Sun"],
-    datasets: [
-      {
-        label: "Temperature",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        tension: 0.1,
-        borderColor: "#0E9CFF",
-        backgroundColor: "rgba(14, 156, 255, 0.2)", // Set background color here
-      },
-    ],
-  };
+  useEffect(() => {
+    fetch("http://localhost:8000/api/data/list?page_id=2&page_size=100")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        const array = data.map((d: any) => d.value);
+        setDatasets(array);
+      });
+  }, []);
+  const chartData = useMemo(
+    () => ({
+      labels: datasets.map((_: any, index: number) => index),
+      datasets: [
+        {
+          label: "Temperature",
+          data: datasets,
+          fill: false,
+          tension: 0.1,
+          borderColor: "#0E9CFF",
+          backgroundColor: "rgba(14, 156, 255, 0.2)", // Set background color here
+        },
+      ],
+    }),
+    [datasets]
+  );
 
   return (
     <div className="bg-white pt-8 pr-8">

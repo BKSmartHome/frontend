@@ -15,7 +15,7 @@ const wrapperStyles =
 
 export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
-  const ws = new WebSocket("ws://localhost:8001/ws");
+  const ws = new WebSocket("ws://localhost:8000/ws");
 
   const initSocket = () => {
     ws.onopen = () => {
@@ -24,7 +24,6 @@ export const DashboardPane: IComponent = () => {
     ws.onmessage = (event) => {
       const response = event.data;
       // const type = response[0]
-      console.log({ data: response });
       const data = response.slice(2, 7);
       setData({
         temperature: data,
