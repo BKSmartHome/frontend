@@ -3,10 +3,7 @@ import "@styles/globals.scss";
 import { MainLayout } from "@layouts/MainLayout";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-
-/**
- * Default layout for page component
- */
+import { useEffect } from "react";
 
 const DefaultLayout: IComponent = ({ children }) => <>{children}</>;
 const ThemeProvider = dynamic(() =>
@@ -14,6 +11,7 @@ const ThemeProvider = dynamic(() =>
     (data) => data.ThemeProvider
   )
 );
+
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout =
     (Component as IPageComponent).getLayout ||
