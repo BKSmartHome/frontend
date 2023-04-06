@@ -5,10 +5,6 @@ import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
-/**
- * Default layout for page component
- */
-
 const DefaultLayout: IComponent = ({ children }) => <>{children}</>;
 const ThemeProvider = dynamic(() =>
   import("@material-tailwind/react/context/theme").then(
@@ -22,9 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     ((children) => <DefaultLayout>{children}</DefaultLayout>);
 
   const PageContent = Component as IPageComponent;
-  useEffect(() => {
-    fetch("http://localhost:3000/api/socket");
-  }, []);
 
   return (
     <ThemeProvider value={undefined}>

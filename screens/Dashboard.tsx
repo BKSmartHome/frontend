@@ -15,7 +15,7 @@ const MenuItemComponent: IComponent<{
   icon: ReactElement;
 }> = ({ name, icon }) => {
   return (
-    <div className="w-[94px] h-[94px] !bg-white rounded-[20px] flex flex-col items-center justify-center gap-2">
+    <div className="w-[94px] h-[94px] !bg-[#32383D] rounded-[20px] flex flex-col items-center justify-center gap-2">
       <div className="w-[28px] h-[28px]">{icon}</div>
       <h2 className="text-sm">{capitalize(name)}</h2>
     </div>
