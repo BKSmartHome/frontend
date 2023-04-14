@@ -66,7 +66,7 @@ export const LineChart: IComponent<{
   };
   //TODO: fetch data here
   useEffect(() => {
-    fetch("http://localhost:8000/api/data/list?page_id=2&page_size=100")
+    fetch("http://localhost:8000/api/data/list?page_id=1&page_size=100")
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -75,6 +75,9 @@ export const LineChart: IComponent<{
       .then((data) => {
         const array = data.map((d: any) => d.value);
         setDatasets(array);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
   const chartData = useMemo(

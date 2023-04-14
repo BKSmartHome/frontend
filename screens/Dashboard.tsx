@@ -32,10 +32,10 @@ const Dashboard: IComponent = () => {
       menuItem: <MenuItemComponent name="control" icon={<SettingSVG />} />,
       render: <ControlPane />,
     },
-    {
-      menuItem: <MenuItemComponent name="analysis" icon={<AnalysisSVG />} />,
-      render: <AnalysisPane />,
-    },
+    // {
+    //   menuItem: <MenuItemComponent name="analysis" icon={<AnalysisSVG />} />,
+    //   render: <AnalysisPane />,
+    // },
     {
       menuItem: <MenuItemComponent name="Alert" icon={<DashboardSVG />} />,
       render: <AlertPane />,

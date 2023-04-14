@@ -15,40 +15,6 @@ const wrapperStyles =
 
 export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
-  const ws = new WebSocket("ws://localhost:8000/ws");
-
-  const initSocket = () => {
-    ws.onopen = () => {
-      console.log("Connection Established!");
-    };
-    ws.onmessage = (event) => {
-      const response = event.data;
-      // const type = response[0]
-      const data = response.slice(2, 7);
-      setData({
-        temperature: data,
-        light: data?.light ?? "",
-        humidity: data?.humidity ?? -1,
-        burn: data?.burn ?? "N/A",
-        detection: data?.detection ?? "N/A",
-      });
-    };
-
-    ws.onclose = () => {
-      console.log("Connection Closed!");
-    };
-
-    ws.onerror = () => {
-      console.log("WS Error");
-    };
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(initSocket, 2000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
   useEffect(() => {
     const initialData: DashboardDataProps = {

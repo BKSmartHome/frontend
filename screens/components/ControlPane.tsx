@@ -1,13 +1,74 @@
+import { Switch } from "@material-tailwind/react";
 import { cx } from "@utils/tools";
+import { connect, MqttClient } from "mqtt";
 import Image from "next/image";
-import React, { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import styles from "./styles.module.scss";
 
 export const ControlPane: IComponent = () => {
+  const [toggleFan, setFan] = useState<TFanStatus>("OFF");
+  const [client, setClient] = useState<MqttClient | null>(null);
+  const [payload, setPayload] = useState({});
+
+  const host = "127.0.0.1";
+  const port = "8083";
+  const connectUrl = `ws://${host}:${port}/mqtt`;
+
+  const mqttConnect = (host: string, mqttOption: any) => {
+    setClient(connect(host, mqttOption));
+  };
+  useEffect(() => {
+    const options = {
+      keepalive: 30,
+      protocolId: "MQTT",
+      protocolVersion: 4,
+      clean: true,
+      reconnectPeriod: 1000,
+      connectTimeout: 30 * 1000,
+      will: {
+        topic: "WillMsg",
+        payload: "Connection Closed abnormally..!",
+        qos: 0,
+        retain: false,
+      },
+      rejectUnauthorized: false,
+      clientId: "mqttjs_" + Math.random().toString(16).substr(2, 8),
+      username: "root",
+      password: "secret",
+    };
+
+    mqttConnect(connectUrl, options);
+  }, []);
+  useEffect(() => {
+    if (client) {
+      console.log(client);
+      client.on("connect", () => {
+        console.log("Connected");
+      });
+      client.on("error", (err) => {
+        console.error("Connection error: ", err);
+        client.end();
+      });
+      client.on("reconnect", () => {
+        console.log("Reconnecting");
+      });
+      client.on("message", (topic, message) => {
+        const payload = { topic, message: message.toString() };
+        setPayload(payload);
+        console.log(payload);
+      });
+    }
+  }, [client]);
+
+  useEffect(() => {
+    console.log(payload);
+  }, [payload]);
+
   const FanController = useMemo(() => {
     return (
       <div className="bg-temperature h-full rounded-lg flex items-center justify-center">
+        <div>{`Status: ${status}`}</div>
         <div>
           <div className="text-center">
             <Image
@@ -18,10 +79,15 @@ export const ControlPane: IComponent = () => {
             ></Image>
           </div>
           <div className="flex items-center justify-center">
-            <label className={cx(styles.switch, "")}>
-              <input type="checkbox" />
-              <span className={styles.slider + " " + styles.round}></span>
-            </label>
+            <Switch
+              value={toggleFan}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onChange={(e) => {
+                setFan((prev) => (prev === "ON" ? "OFF" : "ON"));
+              }}
+            />
           </div>
         </div>
       </div>
