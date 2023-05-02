@@ -1,3 +1,4 @@
+import { ReactNode, useRef } from "react";
 import {
   Transition as ReactTransition,
   TransitionGroup,
@@ -36,10 +37,11 @@ const TransitionStyles: TTransitionStyles = {
   },
 };
 
-const TransitionLayout: React.FC<TransitionKind<React.ReactNode>> = function ({
+const TransitionLayout: React.FC<TransitionKind<ReactNode>> = function ({
   children,
   location,
 }) {
+  const nodeRef = useRef();
   return (
     <TransitionGroup className="h-full relative">
       <ReactTransition
@@ -48,6 +50,7 @@ const TransitionLayout: React.FC<TransitionKind<React.ReactNode>> = function ({
           enter: TIMEOUT,
           exit: TIMEOUT,
         }}
+        nodeRef={nodeRef}
       >
         {(status) => (
           <div

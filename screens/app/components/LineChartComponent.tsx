@@ -1,5 +1,5 @@
 import { Option, Select } from "@material-tailwind/react";
-import { capitalize } from "@utils/tools";
+import { capitalizeFirstLetter } from "@utils/tools";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -30,7 +30,7 @@ export const LineChart: IComponent<{
       y: {
         title: {
           display: true,
-          text: capitalize(monitorType),
+          text: capitalizeFirstLetter(monitorType),
           color: "black",
           font: {
             size: 20,

@@ -7,11 +7,11 @@ export const AppScreen: IComponent = () => {
   return (
     <main
       className={cx(
-        "min-h-[80vh] dark:text-white my-20 mx-40 p-20 rounded-[40px]",
+        "!bg-black min-h-screen flex flex-col dark:text-white my-20 mx-20 px-12 py-12 rounded-[40px]",
         styles.main
       )}
     >
-      <Dashboard />
+      <Dashboard className="grow" />
     </main>
   );
 };

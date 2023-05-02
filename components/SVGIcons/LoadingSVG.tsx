@@ -29,6 +29,6 @@ export const LoadingSVGR: ISvgComponent = ({
   );
 };
 
-export const LoadingSVG = dynamic(() =>
-  import("./LoadingSVG").then((mod) => mod.LoadingSVGR)
+export const LoadingSVG = dynamic<React.ComponentProps<typeof LoadingSVGR>>(
+  () => import("./LoadingSVG").then((mod) => mod.LoadingSVGR)
 );
