@@ -2,6 +2,7 @@ import { SettingSVG } from "@components/SVGIcons/SettingSVG";
 import { TabsDashboard } from "@components/TabsDashboard";
 import {
   BellAlertIcon,
+  ChartBarIcon,
   Cog6ToothIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
@@ -39,10 +40,15 @@ const Dashboard: IComponent<{
       menuItem: <MenuItemComponent name="control" icon={<Cog6ToothIcon />} />,
       render: <ControlPane />,
     },
-    // {
-    //   menuItem: <MenuItemComponent name="analysis" icon={<></>} />,
-    //   render: <AnalysisPane />,
-    // },
+    {
+      menuItem: (
+        <MenuItemComponent
+          name="analysis"
+          icon={<ChartBarIcon></ChartBarIcon>}
+        />
+      ),
+      render: <AnalysisPane />,
+    },
     {
       menuItem: <MenuItemComponent name="alert" icon={<BellAlertIcon />} />,
       render: <AlertPane />,

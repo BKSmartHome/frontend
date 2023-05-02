@@ -1,4 +1,5 @@
 import { Option, Select } from "@material-tailwind/react";
+import { useSensorDataStore } from "@states/data";
 import { capitalizeFirstLetter } from "@utils/tools";
 import {
   CategoryScale,
@@ -9,7 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -24,7 +25,6 @@ ChartJS.register(
 export const LineChart: IComponent<{
   monitorType: string;
 }> = ({ monitorType = "temperature" }) => {
-  const [datasets, setDatasets] = useState<any>([]);
   const options = {
     scales: {
       y: {
@@ -65,28 +65,21 @@ export const LineChart: IComponent<{
     },
   };
   //TODO: fetch data here
+
+  const { data, fetchAllSensorData } = useSensorDataStore();
+
   useEffect(() => {
-    fetch("http://localhost:8000/api/data/list?page_id=1&page_size=100")
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((data) => {
-        const array = data.map((d: any) => d.value);
-        setDatasets(array);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (!data) {
+      fetchAllSensorData(1, 100);
+    }
+  }, [data, fetchAllSensorData]);
   const chartData = useMemo(
     () => ({
-      labels: datasets.map((_: any, index: number) => index),
+      labels: data ? data.map((_: any, index: number) => index) : [],
       datasets: [
         {
           label: "Temperature",
-          data: datasets,
+          data: data,
           fill: false,
           tension: 0.1,
           borderColor: "#0E9CFF",
@@ -94,7 +87,7 @@ export const LineChart: IComponent<{
         },
       ],
     }),
-    [datasets]
+    [data]
   );
 
   return (
