@@ -10,6 +10,10 @@ interface IRuntimeConfig {
   TEAM_NAME: string;
   API_URL: string;
   ACCESS_JWT_SECRET: string;
+  NEXT_PUBLIC_MQTT_URI: string;
+  NEXT_PUBLIC_MQTT_USERNAME: string;
+  NEXT_PUBLIC_MQTT_PASSWORD: string;
+  NEXT_PUBLIC_MQTT_CLIENT_ID: string;
 }
 
 const { publicRuntimeConfig } = getConfig();
@@ -22,4 +26,8 @@ export const {
   TEAM_NAME,
   API_URL,
   ACCESS_JWT_SECRET,
+  NEXT_PUBLIC_MQTT_URI,
+  NEXT_PUBLIC_MQTT_USERNAME,
+  NEXT_PUBLIC_MQTT_PASSWORD,
+  NEXT_PUBLIC_MQTT_CLIENT_ID,
 } = publicRuntimeConfig as IRuntimeConfig;

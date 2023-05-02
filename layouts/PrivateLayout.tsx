@@ -3,8 +3,6 @@ import { ROUTER } from "@configs/router";
 import { useAccountStore } from "@states/account";
 import { useRouter } from "next/router";
 
-import { TransitionLayout } from "./TransitionLayout";
-
 export const PrivateLayout: IComponent = ({ children }) => {
   const router = useRouter();
   const { username } = useAccountStore();

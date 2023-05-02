@@ -1,4 +1,4 @@
-import { connect, MqttClient } from "mqtt";
+import { MqttClient } from "mqtt";
 import create from "zustand";
 
 interface IEmqxState {

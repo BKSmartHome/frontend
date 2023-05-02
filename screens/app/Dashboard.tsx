@@ -1,8 +1,6 @@
-import { SettingSVG } from "@components/SVGIcons/SettingSVG";
 import { TabsDashboard } from "@components/TabsDashboard";
 import {
   BellAlertIcon,
-  ChartBarIcon,
   Cog6ToothIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
@@ -10,7 +8,6 @@ import { capitalizeFirstLetter, cx } from "@utils/tools";
 import { ReactElement } from "react";
 
 import { AlertPane } from "./components/AlertPane";
-import { AnalysisPane } from "./components/AnalysisPane";
 import { ControlPane } from "./components/ControlPane";
 import { DashboardPane } from "./components/DashboardPane";
 
@@ -40,15 +37,15 @@ const Dashboard: IComponent<{
       menuItem: <MenuItemComponent name="control" icon={<Cog6ToothIcon />} />,
       render: <ControlPane />,
     },
-    {
-      menuItem: (
-        <MenuItemComponent
-          name="analysis"
-          icon={<ChartBarIcon></ChartBarIcon>}
-        />
-      ),
-      render: <AnalysisPane />,
-    },
+    // {
+    //   menuItem: (
+    //     <MenuItemComponent
+    //       name="analysis"
+    //       icon={<ChartBarIcon></ChartBarIcon>}
+    //     />
+    //   ),
+    //   render: <AnalysisPane />,
+    // },
     {
       menuItem: <MenuItemComponent name="alert" icon={<BellAlertIcon />} />,
       render: <AlertPane />,
