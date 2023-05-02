@@ -2,14 +2,15 @@ import type { IClientOptions, MqttClient } from "mqtt";
 import MQTT from "mqtt";
 import { useEffect, useRef } from "react";
 
-interface useMqttProps {
+interface IMqttConnectionProps {
   uri: string;
   options?: IClientOptions;
   topicHandlers?: { topic: string; handler: (payload: any) => void }[];
   onConnectedHandler?: (client: MqttClient) => void;
 }
 
-function useMqtt({
+export const MqttConnectionLayout: IComponent<IMqttConnectionProps> = ({
+  children,
   uri,
   options = {},
   topicHandlers = [
@@ -25,7 +26,7 @@ function useMqtt({
   onConnectedHandler = (client) => {
     console.log("client", client);
   },
-}: useMqttProps) {
+}) => {
   const clientRef = useRef<MqttClient | null>(null);
 
   useEffect(() => {
@@ -66,16 +67,7 @@ function useMqtt({
       if (onConnectedHandler) onConnectedHandler(client);
     });
 
-    // return () => {
-    //   if (client) {
-    //     topicHandlers.forEach((th) => {
-    //       client.unsubscribe(th.topic);
-    //     });
-    //     client.end();
-    //   }
-    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-}
-
-export default useMqtt;
+  return <div className="mqtt-connection-layout">{children}</div>;
+};
