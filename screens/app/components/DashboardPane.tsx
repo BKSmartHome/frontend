@@ -1,6 +1,11 @@
 import { HUMIDITY_THRESHOLD } from "@configs/app";
+import { Switch } from "@material-tailwind/react";
+import { cx } from "@utils/tools";
+import { connect, MqttClient } from "mqtt";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+
+import styles from "./styles.module.scss";
 
 interface DashboardDataProps {
   temperature: number;
@@ -16,6 +21,18 @@ const wrapperStyles =
 export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
 
+  const [toggleFan, setFan] = useState<TFanStatus>("OFF");
+  const [client, setClient] = useState<MqttClient | null>(null);
+  const [payload, setPayload] = useState({});
+
+  const host = "127.0.0.1";
+  const port = "8083";
+  const connectUrl = `ws://${host}:${port}/mqtt`;
+
+  const mqttConnect = (host: string, mqttOption: any) => {
+    setClient(connect(host, mqttOption));
+  };
+
   useEffect(() => {
     const initialData: DashboardDataProps = {
       temperature: 28,
@@ -27,9 +44,53 @@ export const DashboardPane: IComponent = () => {
     setData(initialData);
   }, []);
 
-  // useEffect(()=>{
+  useEffect(() => {
+    const options = {
+      keepalive: 30,
+      protocolId: "MQTT",
+      protocolVersion: 4,
+      clean: true,
+      reconnectPeriod: 1000,
+      connectTimeout: 30 * 1000,
+      will: {
+        topic: "WillMsg",
+        payload: "Connection Closed abnormally..!",
+        qos: 0,
+        retain: false,
+      },
+      rejectUnauthorized: false,
+      clientId: "mqttjs_" + Math.random().toString(16).substr(2, 8),
+      username: "root",
+      password: "secret",
+    };
 
-  // },[])
+    mqttConnect(connectUrl, options);
+  }, []);
+
+  useEffect(() => {
+    if (client) {
+      console.log(client);
+      client.on("connect", () => {
+        console.log("Connected");
+      });
+      client.on("error", (err) => {
+        console.error("Connection error: ", err);
+        client.end();
+      });
+      client.on("reconnect", () => {
+        console.log("Reconnecting");
+      });
+      client.on("message", (topic, message) => {
+        const payload = { topic, message: message.toString() };
+        setPayload(payload);
+        console.log(payload);
+      });
+    }
+  }, [client]);
+
+  useEffect(() => {
+    console.log(payload);
+  }, [payload]);
 
   const TemperatureComponent = useMemo(() => {
     return (
@@ -45,6 +106,31 @@ export const DashboardPane: IComponent = () => {
         </div>
         <div className="text-4xl font-bold font-sans">
           {data?.temperature}&#186;C
+        </div>
+
+        <div className="vertical-line h-40 border-2 border-silver border-solid mr-7"></div>
+
+        <div>{`${status}`}</div>
+        <div>
+          <div className="text-center">
+            <Image
+              alt="fan"
+              src="/FanSpeed.png"
+              width={120}
+              height={120}
+            ></Image>
+          </div>
+          <div className="flex items-center justify-center">
+            <Switch
+              value={toggleFan}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onChange={(e) => {
+                setFan((prev) => (prev === "ON" ? "OFF" : "ON"));
+              }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -64,6 +150,25 @@ export const DashboardPane: IComponent = () => {
         </div>
         <div className="text-4xl font-bold font-sans text-black">
           {data?.light}
+        </div>
+
+        <div className="vertical-line h-40 border-2 border-black border-solid mr-7"></div>
+
+        <div>
+          <div className="text-center">
+            <Image
+              alt="fan"
+              src="/Chandelier.png"
+              width={120}
+              height={120}
+            ></Image>
+          </div>
+          <div className="flex items-center justify-center">
+            <label className={cx(styles.switch, "")}>
+              <input type="checkbox" />
+              <span className={styles.slider + " " + styles.round}></span>
+            </label>
+          </div>
         </div>
       </div>
     );
