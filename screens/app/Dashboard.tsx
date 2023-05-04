@@ -11,8 +11,8 @@ import { ReactElement } from "react";
 
 import { AlertPane } from "./components/AlertPane";
 import { AnalysisPane } from "./components/AnalysisPane";
-import { ControlPane } from "./components/ControlPane";
 import { DashboardPane } from "./components/DashboardPane";
+import { SettingPane } from "./components/SettingPane";
 
 export const MenuItemComponent: IComponent<{
   name: string;
@@ -36,10 +36,10 @@ const Dashboard: IComponent<{
       ),
       render: <DashboardPane />,
     },
-    {
-      menuItem: <MenuItemComponent name="control" icon={<Cog6ToothIcon />} />,
-      render: <ControlPane />,
-    },
+    // {
+    //   menuItem: <MenuItemComponent name="control" icon={<Cog6ToothIcon />} />,
+    //   render: <ControlPane />,
+    // },
     {
       menuItem: (
         <MenuItemComponent
@@ -52,6 +52,10 @@ const Dashboard: IComponent<{
     {
       menuItem: <MenuItemComponent name="alert" icon={<BellAlertIcon />} />,
       render: <AlertPane />,
+    },
+    {
+      menuItem: <MenuItemComponent name="setting" icon={<SettingSVG />} />,
+      render: <SettingPane />,
     },
   ];
   return (
