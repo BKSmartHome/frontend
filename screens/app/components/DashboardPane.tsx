@@ -22,6 +22,9 @@ export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
 
   const [toggleFan, setFan] = useState<TFanStatus>("OFF");
+  const [toggleLight, setLight] = useState<TLightStatus>("OFF");
+  const [toggleWatering, setWatering] = useState<TWateringStatus>("OFF");
+
   const [client, setClient] = useState<MqttClient | null>(null);
   const [payload, setPayload] = useState({});
 
@@ -145,7 +148,7 @@ export const DashboardPane: IComponent = () => {
             src="/Light.png"
             width={80}
             height={80}
-            alt="temperature"
+            alt="brightness"
           ></Image>
         </div>
         <div className="text-4xl font-bold font-sans text-black">
@@ -157,17 +160,22 @@ export const DashboardPane: IComponent = () => {
         <div>
           <div className="text-center">
             <Image
-              alt="fan"
+              alt="chandelier"
               src="/Chandelier.png"
               width={120}
               height={120}
             ></Image>
           </div>
           <div className="flex items-center justify-center">
-            <label className={cx(styles.switch, "")}>
-              <input type="checkbox" />
-              <span className={styles.slider + " " + styles.round}></span>
-            </label>
+            <Switch
+              value={toggleLight}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onChange={(e) => {
+                setLight((prev) => (prev === "ON" ? "OFF" : "ON"));
+              }}
+            />
           </div>
         </div>
       </div>
@@ -182,7 +190,7 @@ export const DashboardPane: IComponent = () => {
           status === "Low" ? "bg-humidityLow" : "bg-humidityHigh"
         } rounded-lg h-full flex items-center justify-center`}
       >
-        <div>
+        <div className="mr-7">
           <div className="flex items-center justify-center gap-2">
             <div className="wrapper">
               <Image
@@ -209,6 +217,30 @@ export const DashboardPane: IComponent = () => {
               />
             }
             <p className="text-lg font-bold font-sans">{}</p>
+          </div>
+        </div>
+
+        <div className="vertical-line h-40 border-2 border-white border-solid mr-14"></div>
+
+        <div>
+          <div className="text-center">
+            <Image
+              alt="irrigation"
+              src="/Irrigation.png"
+              width={120}
+              height={120}
+            ></Image>
+          </div>
+          <div className="flex items-center justify-center">
+            <Switch
+              value={toggleWatering}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onChange={(e) => {
+                setLight((prev) => (prev === "ON" ? "OFF" : "ON"));
+              }}
+            />
           </div>
         </div>
       </div>
@@ -262,9 +294,10 @@ export const DashboardPane: IComponent = () => {
         <div className="flex gap-8">
           <div className="grow">{TemperatureComponent}</div>
           <div className="grow">{BrightnessComponent}</div>
-          <div className="grow">{HumidityComponent}</div>
+          
         </div>
         <div className="flex gap-8">
+          <div className="grow">{HumidityComponent}</div>
           <div className="grow">{BurnWarning}</div>
           <div className="grow">{DetectedWarning}</div>
         </div>
