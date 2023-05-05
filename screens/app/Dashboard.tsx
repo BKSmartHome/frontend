@@ -49,10 +49,10 @@ const Dashboard: IComponent<{
       ),
       render: <AnalysisPane />,
     },
-    {
-      menuItem: <MenuItemComponent name="alert" icon={<BellAlertIcon />} />,
-      render: <AlertPane />,
-    },
+    // {
+    //   menuItem: <MenuItemComponent name="alert" icon={<BellAlertIcon />} />,
+    //   render: <AlertPane />,
+    // },
     {
       menuItem: <MenuItemComponent name="setting" icon={<SettingSVG />} />,
       render: <SettingPane />,

@@ -1,20 +1,12 @@
 import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Input,
-  Switch,
   Tab,
   TabPanel,
   Tabs,
   TabsBody,
   TabsHeader,
-  Typography,
 } from "@material-tailwind/react";
 import { cx } from "@utils/tools";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 interface AlertHistoryProps {
   type: string;
