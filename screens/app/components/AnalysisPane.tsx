@@ -18,8 +18,8 @@ export const AnalysisPane: IComponent = () => {
         value: "temperature",
       },
       {
-        label: "Moisture",
-        value: "moisture",
+        label: "Humidity",
+        value: "humidity",
       },
       {
         label: "Light",
@@ -55,7 +55,7 @@ export const AnalysisPane: IComponent = () => {
         >
           {tabs.map(({ value }) => (
             <TabPanel key={value} value={value} className="bg-white rounded-lg">
-              <LineChart monitorType={value} />
+              <LineChart monitorType={value as TMonitorSensorType} />
             </TabPanel>
           ))}
         </TabsBody>
@@ -66,7 +66,7 @@ export const AnalysisPane: IComponent = () => {
     <div className="p-8">
       <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
         <h1>Smart Home</h1>
-        <h1>10:06 AM, Mar 2 2023</h1>
+        <h1>{new Date().toLocaleDateString()}</h1>
       </div>
       {renderChart()}
     </div>

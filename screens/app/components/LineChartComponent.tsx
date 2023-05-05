@@ -10,7 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 export const LineChart: IComponent<{
-  monitorType: string;
+  monitorType: TMonitorSensorType;
 }> = ({ monitorType = "temperature" }) => {
   const options = {
     scales: {
@@ -40,7 +40,7 @@ export const LineChart: IComponent<{
         suggestedMin: 0,
         ticks: {
           beginAtZero: true,
-          stepSize: 20,
+          stepSize: 5,
           color: "black",
           font: {
             size: 20,
@@ -64,22 +64,31 @@ export const LineChart: IComponent<{
       },
     },
   };
-  //TODO: fetch data here
 
   const { data, fetchAllSensorData } = useSensorDataStore();
+  const fetchData = useCallback(async () => {
+    if (data[monitorType]?.length > 0) return;
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); //
+    const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
+    const to = now.toISOString().replace("Z", "+00:00");
+    await fetchAllSensorData(monitorType, from, to);
+  }, [data[monitorType]]);
 
   useEffect(() => {
-    if (!data) {
-      fetchAllSensorData(1, 100);
-    }
+    fetchData();
   }, [data, fetchAllSensorData]);
   const chartData = useMemo(
     () => ({
-      labels: data ? data.map((_: any, index: number) => index) : [],
+      labels: data
+        ? data[monitorType]?.map((d: any, index: number) =>
+            new Date(d.createdAt).toLocaleTimeString()
+          )
+        : [],
       datasets: [
         {
           label: "Temperature",
-          data: data,
+          data: data[monitorType]?.map((d: any, index: number) => d.value),
           fill: false,
           tension: 0.1,
           borderColor: "#0E9CFF",
@@ -107,7 +116,7 @@ export const LineChart: IComponent<{
           </Select>
         </div>
       </div>
-      <Line data={chartData} options={options} />;
+      <Line data={chartData} options={options} />
     </div>
   );
 };

@@ -4,24 +4,27 @@ import create from "zustand";
 
 interface ISensorDataState {
   loading: boolean;
-  data?: ISensorData[];
-  fetchAllSensorData: (pageId: number, pageSize: number) => Promise<void>;
+  data: { [key in TMonitorSensorType]: ISensorData[] };
+  fetchAllSensorData: (type: string, from: string, to: string) => Promise<void>;
 }
 
-export const useSensorDataStore = create<ISensorDataState>()((set) => ({
+export const useSensorDataStore = create<ISensorDataState>()((set, get) => ({
   loading: false,
-  fetchAllSensorData: async (pageId: number, pageSize: number) => {
+  data: {
+    temperature: [],
+    humidity: [],
+    light: [],
+  },
+  fetchAllSensorData: async (type: string, from: string, to: string) => {
     set({ loading: true });
     try {
-      const res = await listAllDataApi(pageId, pageSize);
+      const res = await listAllDataApi(type, from, to);
       if (res.status !== 200) {
         ToastTemplate.fail("Failed to fetch data");
       } else if (res.status === 200) {
         if (res.data) {
-          set({
-            data: res.data,
-          });
-          ToastTemplate.success("Successfully fetched data");
+          set({ data: { ...get().data, [type]: res.data } });
+          console.log({ data: res.data });
           set({ loading: false });
           return;
         }

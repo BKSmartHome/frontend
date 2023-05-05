@@ -1,4 +1,7 @@
 type TSensorStatus = "CONNECTED" | "DISCONNECTED";
+
+type TMonitorSensorType = "temperature" | "humidity" | "light";
+
 interface ISensorData {
   id: number;
   deviceId: string;

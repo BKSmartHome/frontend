@@ -25,8 +25,8 @@ export const SettingPane: IComponent = () => {
       label: "Mật khẩu",
       value: "password",
       children: (
-        <div className="flex justify-center items-center">
-          <Card className="w-1/2 ">
+        <div className="flex justify-center w-full items-center">
+          <Card className="w-2/3 ">
             <CardHeader
               nonce={undefined}
               onResize={undefined}
@@ -108,8 +108,8 @@ export const SettingPane: IComponent = () => {
       label: "Thông báo",
       value: "notification",
       children: (
-        <div className="flex justify-center items-center">
-          <Card className="w-1/2">
+        <div className="flex justify-center w-full items-center">
+          <Card className="w-2/3">
             <CardHeader
               nonce={undefined}
               onResize={undefined}
@@ -232,7 +232,7 @@ export const SettingPane: IComponent = () => {
         <h1>10:06 AM, Mar 2 2023</h1>
       </div>
       <Tabs>
-        <TabsHeader>
+        <TabsHeader className="w-1/3">
           {data.map(({ label, value }) => (
             <Tab
               key={value}
@@ -245,7 +245,7 @@ export const SettingPane: IComponent = () => {
         </TabsHeader>
         <TabsBody className="mt-4">
           {data.map(({ value, children }) => (
-            <TabPanel key={value} value={value} className=" rounded-lg">
+            <TabPanel key={value} value={value} className="rounded-lg">
               {children}
             </TabPanel>
           ))}
