@@ -1,4 +1,12 @@
-import { useCallback, useMemo } from "react";
+import {
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsBody,
+  TabsHeader,
+} from "@material-tailwind/react";
+import { cx } from "@utils/tools";
+import { useMemo } from "react";
 
 interface AlertHistoryProps {
   type: string;
@@ -17,78 +25,168 @@ export const AlertPane: IComponent = () => {
     () => (
       <tr className="text-xs text-[#667085] bg-gray-100  font-normal">
         <th className="p-4">ID</th>
-        <th className="p-4">Type</th>
-        <th className="p-4">Value</th>
-        <th className="p-4">Threshold</th>
-        <th className="p-4">Status</th>
-        <th className="p-4">Time</th>
+        <th className="p-4">Giá trị</th>
+        <th className="p-4">Ngưỡng</th>
+        <th className="p-4">Trạng thái</th>
+        <th className="p-4">Thời gian</th>
       </tr>
     ),
     []
   );
 
-  const renderData = useCallback(() => {
-    const data: AlertHistoryProps[] = [
-      {
-        type: "Temperature",
-        status: "High",
-        time: "Apr 1 11:58 AM",
-        value: "50 celsius",
-        threshold: "30 celsius",
-      },
-      {
-        type: "Light",
-        status: "Low",
-        time: "Apr 1 11:58 AM",
-        value: "50",
-        threshold: "30",
-      },
-      {
-        type: "Temperature",
-        status: "Low",
-        time: "Apr 1 11:58 AM",
-        value: "10 celsius",
-        threshold: "30 celsius",
-      },
-      {
-        type: "Smoke",
-        status: "Detected",
-        time: "Apr 1 11:58 AM",
-        value: "-",
-      },
-    ];
-    //TODO: sort by time
-    return data.map((d, index) => (
-      <tr
-        key={index}
-        className="cursor-pointer text-gray-700 hover:bg-gray-200"
-      >
-        <td className="p-4 font-bold text-black">{index}</td>
-        <td className="p-4 ">{d.type}</td>
-        <td className="p-4">{d.value}</td>
-        <td className="p-4">{d.threshold ?? "-"}</td>
-        <td className="p-4">{d.status}</td>
-        <td className="p-4">{d.time}</td>
-      </tr>
-    ));
-  }, []);
+  const renderTemperature = useMemo(
+    () =>
+      Temperature.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.value}</td>
+          <td className="px-6 py-2">{item.threshold}</td>
+          <td className="px-6 py-2">{item.Status}</td>
+          <td className="px-6 py-2">{item.time}</td>
+        </tr>
+      )),
+    [Temperature]
+  );
+
+  const renderSoilmoisture = useMemo(
+    () =>
+      Soilmoisture.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.value}</td>
+          <td className="px-6 py-2">{item.threshold}</td>
+          <td className="px-6 py-2">{item.Status}</td>
+          <td className="px-6 py-2">{item.time}</td>
+        </tr>
+      )),
+    [Soilmoisture]
+  );
+
+  const renderSmoke = useMemo(
+    () =>
+      Smoke.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.value}</td>
+          <td className="px-6 py-2">{item.threshold}</td>
+          <td className="px-6 py-2">{item.Status}</td>
+          <td className="px-6 py-2">{item.time}</td>
+        </tr>
+      )),
+    [Smoke]
+  );
+
+  const renderInfrared = useMemo(
+    () =>
+      Infrared.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.value}</td>
+          <td className="px-6 py-2">{item.threshold}</td>
+          <td className="px-6 py-2">{item.Status}</td>
+          <td className="px-6 py-2">{item.time}</td>
+        </tr>
+      )),
+    [Infrared]
+  );
+
+  const data = [
+    {
+      label: "Nhiệt độ",
+      value: "temperature",
+      children: (
+        <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+          <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            {renderHeader}
+          </thead>
+          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+            {renderTemperature}
+          </tbody>
+        </table>
+      ),
+    },
+    {
+      label: "Độ ẩm đất",
+      value: "soilmoisture",
+      children: (
+        <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+          <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            {renderHeader}
+          </thead>
+          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+            {renderSoilmoisture}
+          </tbody>
+        </table>
+      ),
+    },
+    {
+      label: "Khói",
+      value: "smoke",
+      children: (
+        <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+          <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            {renderHeader}
+          </thead>
+          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+            {renderSmoke}
+          </tbody>
+        </table>
+      ),
+    },
+    {
+      label: "Hồng ngoại",
+      value: "infrared",
+      children: (
+        <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+          <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            {renderHeader}
+          </thead>
+          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+            {renderInfrared}
+          </tbody>
+        </table>
+      ),
+    },
+  ];
+
   return (
-    <div className="p-8">
+    <main className="space-y-1">
       <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
         <h1>Smart Home</h1>
         <h1>10:06 AM, Mar 2 2023</h1>
       </div>
-
-      <div className="container mx-auto p-6 bg-white rounded-2xl">
-        <h1 className="text-xl font-sans	font-semibold pb-6 text-gray-900">
-          Alert history
-        </h1>
-
-        <table className="table bg-white w-full	text-sm font-sans font-light">
-          <thead className="!bg-[#EAECF0]">{renderHeader}</thead>
-          <tbody className="text-center text-white-900">{renderData()}</tbody>
-        </table>
-      </div>
-    </div>
+      <Tabs>
+        <TabsHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
+          {data.map(({ label, value }) => (
+            <Tab
+              key={value}
+              value={value}
+              className={cx("p-3 font-bold rounded-inherit")}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+            >
+              {label}
+            </Tab>
+          ))}
+        </TabsHeader>
+        <TabsBody
+          className="mt-4"
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
+          {data.map(({ value, children }) => (
+            <TabPanel key={value} value={value} className="bg-white rounded-lg">
+              {children}
+            </TabPanel>
+          ))}
+        </TabsBody>
+      </Tabs>
+    </main>
   );
 };
