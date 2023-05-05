@@ -37,7 +37,7 @@ export const MqttConnectionLayout: IComponent<IMqttConnectionProps> = ({
       };
 
     try {
-      console.log("Conneting to", uri);
+      console.log("Connecting to", uri);
       clientRef.current = options
         ? MQTT.connect(uri, options)
         : MQTT.connect(uri);

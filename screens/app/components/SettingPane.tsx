@@ -14,10 +14,6 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { cx } from "@utils/tools";
-import { connect, MqttClient } from "mqtt";
-import { useEffect, useMemo, useState } from "react";
-
-import styles from "./styles.module.scss";
 
 export const SettingPane: IComponent = () => {
   const data = [
@@ -231,7 +227,7 @@ export const SettingPane: IComponent = () => {
         <h1>Smart Home</h1>
         <h1>10:06 AM, Mar 2 2023</h1>
       </div>
-      <Tabs>
+      <Tabs value="password">
         <TabsHeader className="w-1/3">
           {data.map(({ label, value }) => (
             <Tab

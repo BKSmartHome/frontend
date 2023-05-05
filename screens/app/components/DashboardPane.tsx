@@ -1,27 +1,42 @@
+import SwitchButton from "@components/Switch";
+import { LIST_OF_TOPICS } from "@configs/sensor";
+import {
+  NEXT_PUBLIC_MQTT_CLIENT_ID,
+  NEXT_PUBLIC_MQTT_PASSWORD,
+  NEXT_PUBLIC_MQTT_URI,
+  NEXT_PUBLIC_MQTT_USERNAME,
+} from "@env";
 import {
   FireIcon,
   LightBulbIcon,
   PowerIcon,
   SunIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline";
-import { Switch } from "@material-tailwind/react";
+import { MqttConnectionLayout } from "@layouts/MqttConnectionLayout";
 import { cx } from "@utils/tools";
+import { MqttClient } from "mqtt";
 import Image from "next/image";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useCallback, useMemo, useRef, useState } from "react";
 
 interface DashboardDataProps {
-  temperature: number;
+  temperature: string;
   light: string;
-  humidity: number;
-  burn: string;
+  humidity: string;
+  fire: string;
   detection: string;
+  fan: string;
+  led: string;
+  pump: string;
 }
+
+type TDashboardDataKeys = keyof DashboardDataProps;
 
 type TDeviceStatus = "ON" | "OFF";
 
 const SensorReaderComponent: IComponent<{
   className?: string;
-  text: string;
+  text: string | ReactElement;
   icon: ReactElement;
 }> = ({ className, text, icon }) => {
   return (
@@ -42,8 +57,8 @@ const DeviceComponent: IComponent<{
   name: string;
   icon: ReactElement;
   status: TDeviceStatus;
-  onToggle?: () => void;
-}> = ({ icon, name, status, className }) => {
+  onToggle: () => void;
+}> = ({ icon, status, className, onToggle }) => {
   return (
     <div
       className={cx(
@@ -52,36 +67,80 @@ const DeviceComponent: IComponent<{
       )}
     >
       <div>{icon}</div>
-      <div className="flex gap-4">
-        <span className="ml-4 font-bold text-lg">OFF</span>
-        <Switch
-          labelProps={{
-            className: "text-white font-bold text-lg",
-          }}
-          defaultChecked={status === "ON"}
-          color="indigo"
-          label={"ON"}
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
-        />
+      <div className="flex gap-4 relative items-center justify-center">
+        <span className="font-bold text-lg">OFF</span>
+        <SwitchButton status={status} onToggle={onToggle} />
+        <span className="font-bold text-lg">ON</span>
       </div>
     </div>
   );
 };
 
-const wrapperStyles =
-  "rounded-lg flex items-center justify-center h-full gap-2";
-
 export const DashboardPane: IComponent = () => {
   const [data, setData] = useState<DashboardDataProps | null>(null);
 
-  const TemperatureComponent = useMemo(() => {
+  const addMessage = (msg: any) => {
+    if (msg)
+      setData(
+        (prev) =>
+          ({
+            ...prev,
+            [msg.topic as TDashboardDataKeys]: msg.payload.toString(),
+          } as DashboardDataProps)
+      );
+  };
+  // const clearMessages = () => {
+  //   setData(null);
+  // };
+
+  const incomingMessageHandler = useRef(
+    LIST_OF_TOPICS.map((sensor) => ({
+      topic: sensor,
+      handler: (msg: any) => {
+        addMessage(msg);
+      },
+    }))
+  );
+
+  const [client, setClient] = useState<MqttClient | null>(null);
+  const setMqttClient = (client: MqttClient) => {
+    setClient(client);
+  };
+
+  const publishMessages = (client: any, topic: string, msg: string) => {
+    if (!client) {
+      console.log("(publishMessages) Cannot publish, mqttClient: ", client);
+      return;
+    }
+    client.publish(topic, msg);
+  };
+
+  const mqttConnectionLayoutParams = useMemo(
+    () => ({
+      uri: NEXT_PUBLIC_MQTT_URI,
+      options: {
+        username: NEXT_PUBLIC_MQTT_USERNAME,
+        password: NEXT_PUBLIC_MQTT_PASSWORD,
+        clientId: NEXT_PUBLIC_MQTT_CLIENT_ID,
+      },
+      topicHandlers: incomingMessageHandler.current,
+      onConnectedHandler: (client: any) => setMqttClient(client),
+    }),
+    []
+  );
+
+  const TemperatureComponent = useCallback(() => {
     return (
       <div className="flex gap-8">
         <SensorReaderComponent
           className="grow bg-red-200"
-          text="20"
+          text={
+            data?.temperature ? (
+              <span>{data?.temperature.slice(0, 4)}&#8451;</span>
+            ) : (
+              "NA"
+            )
+          }
           icon={
             <Image
               alt="temperature"
@@ -94,7 +153,10 @@ export const DashboardPane: IComponent = () => {
         <DeviceComponent
           className="grow bg-blue-300"
           name="FAN"
-          status="OFF"
+          status={data?.fan === "1" ? "ON" : "OFF"}
+          onToggle={() =>
+            publishMessages(client, "fan", data?.fan === "1" ? "0" : "1")
+          }
           icon={
             <svg
               width="65"
@@ -114,95 +176,118 @@ export const DashboardPane: IComponent = () => {
         />
       </div>
     );
-  }, []);
+  }, [data?.temperature, data?.fan, client]);
 
-  const BrightnessComponent = useMemo(() => {
+  const BrightnessComponent = useCallback(() => {
     return (
       <div className="flex gap-8">
         <SensorReaderComponent
           className="grow bg-yellow-800"
-          text="20"
+          text={data?.light ? <span>{data?.light.slice(0, 4)}</span> : "NA"}
           icon={<SunIcon className="w-16 h-16" color="white" />}
         />
+
         <DeviceComponent
           className="grow bg-gray-600"
-          name="FAN"
-          status="OFF"
+          name="LIGHT"
+          status={data?.led === "1" ? "ON" : "OFF"}
+          onToggle={() =>
+            publishMessages(client, "led", data?.led === "1" ? "0" : "1")
+          }
           icon={<LightBulbIcon className="w-12 h-12" color="white" />}
         />
       </div>
     );
-  }, []);
+  }, [data?.light, data?.led, client]);
 
-  const HumidityComponent = useMemo(
-    () => (
+  const HumidityComponent = useCallback(() => {
+    return (
       <div className="flex gap-8">
         <SensorReaderComponent
           className="grow bg-green-800"
-          text="20"
+          text={
+            data?.humidity ? <span>{data?.humidity.slice(0, 4)}</span> : "NA"
+          }
           icon={
             <Image alt="temperature" src="/Garden.png" width={64} height={64} />
           }
         />
         <DeviceComponent
           className="grow bg-teal-600"
-          name="FAN"
-          status="OFF"
+          name="PUMP"
+          status={data?.pump === "1" ? "ON" : "OFF"}
           icon={<PowerIcon className="w-12 h-12" color="white" />}
+          onToggle={() =>
+            publishMessages(client, "pump", data?.pump === "1" ? "0" : "1")
+          }
         />
       </div>
-    ),
-    []
-  );
+    );
+  }, [data?.humidity, data?.pump, client]);
 
   const BurnWarning = useMemo(() => {
     return (
-      <div className={`bg-red-800 ${wrapperStyles}`}>
-        <div className="wrapper">
+      <div
+        className={`bg-red-800 rounded-lg flex items-center justify-center h-full gap-2`}
+      >
+        <div className="wrapper justify-center items-center">
           <FireIcon className="w-16 h-16 text-white" strokeWidth={2} />
-        </div>
-        <div className="text-4xl font-bold font-sans text-black">
-          {data?.burn}
+          <div className="text-xl font-bold font-sans text-white text-center">
+            {data?.fire !== "0" ? "Fire" : "No Fire"}
+          </div>
         </div>
       </div>
     );
-  }, [data]);
+  }, [data?.fire]);
   const DetectedWarning = useMemo(() => {
     return (
-      <div className={`bg-detection ${wrapperStyles}`}>
+      <div
+        className={`bg-detection rounded-lg flex items-center justify-center h-full gap-2`}
+      >
         <div className="wrapper">
-          <Image
-            className=""
-            src="/Denied.png"
-            width={80}
-            height={80}
-            alt="temperature"
-          ></Image>
-        </div>
-        <div className="text-4xl font-bold font-sans text-black">
-          {data?.detection}
+          {data?.detection && data.detection !== "0" ? (
+            <div
+              className="flex flex-col
+             justify-center items-center"
+            >
+              <UsersIcon className="text-white w-12 h-12" />
+              <div className="text-xl font-bold font-sans text-black">
+                Detect some people
+              </div>
+            </div>
+          ) : (
+            <Image
+              className=""
+              src="/Denied.png"
+              width={80}
+              height={80}
+              alt="detection"
+            />
+          )}
         </div>
       </div>
     );
-  }, [data]);
+  }, [data?.detection]);
 
   return (
-    <div className="p-8 h-full">
-      <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
-        <h1>Smart Home</h1>
-        <h1>10:06 AM, Mar 2 2023</h1>
-      </div>
-      <div className="min-h-[60vh] grid grid-cols-3 gap-8">
-        <div className="col-span-2  flex flex-col gap-4">
-          <div className="">{TemperatureComponent}</div>
-          <div className="">{BrightnessComponent}</div>
-          <div className="grow">{HumidityComponent}</div>
+    <MqttConnectionLayout {...mqttConnectionLayoutParams}>
+      <div className="p-8 h-full">
+        <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
+          <h1>Smart Home</h1>
+          <h1>{new Date().toDateString()}</h1>
         </div>
-        <div className="flex flex-col gap-8">
-          <div className="grow">{BurnWarning}</div>
-          <div className="grow">{DetectedWarning}</div>
+        <div className="min-h-[60vh] grid grid-cols-3 gap-8">
+          <div className="col-span-2  flex flex-col gap-4">
+            <div className="">{TemperatureComponent()}</div>
+            <div className="">{BrightnessComponent()}</div>
+            <div className="grow">{HumidityComponent()}</div>
+          </div>
+          <div className="flex flex-col gap-8">
+            <div className="grow">{BurnWarning}</div>
+            <div className="grow">{DetectedWarning}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </MqttConnectionLayout>
   );
 };

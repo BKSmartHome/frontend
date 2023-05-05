@@ -73,22 +73,22 @@ export const LineChart: IComponent<{
     const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
     const to = now.toISOString().replace("Z", "+00:00");
     await fetchAllSensorData(monitorType, from, to);
-  }, [data[monitorType]]);
+  }, [data, fetchAllSensorData, monitorType]);
 
   useEffect(() => {
     fetchData();
-  }, [data, fetchAllSensorData]);
+  }, [data, fetchData]);
   const chartData = useMemo(
     () => ({
       labels: data
-        ? data[monitorType]?.map((d: any, index: number) =>
+        ? data[monitorType]?.map((d: any) =>
             new Date(d.createdAt).toLocaleTimeString()
           )
         : [],
       datasets: [
         {
           label: "Temperature",
-          data: data[monitorType]?.map((d: any, index: number) => d.value),
+          data: data[monitorType]?.map((d: any) => d.value),
           fill: false,
           tension: 0.1,
           borderColor: "#0E9CFF",
@@ -96,7 +96,7 @@ export const LineChart: IComponent<{
         },
       ],
     }),
-    [data]
+    [data, monitorType]
   );
 
   return (

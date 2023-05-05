@@ -8,14 +8,6 @@ import {
 import { cx } from "@utils/tools";
 import { useMemo } from "react";
 
-interface AlertHistoryProps {
-  type: string;
-  status: string;
-  time: string;
-  value: number | string;
-  threshold?: string | number;
-}
-
 export const AlertPane: IComponent = () => {
   //fetch data here
   // TODO: integrate with backend

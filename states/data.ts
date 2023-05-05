@@ -24,7 +24,6 @@ export const useSensorDataStore = create<ISensorDataState>()((set, get) => ({
       } else if (res.status === 200) {
         if (res.data) {
           set({ data: { ...get().data, [type]: res.data } });
-          console.log({ data: res.data });
           set({ loading: false });
           return;
         }
