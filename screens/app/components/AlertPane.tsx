@@ -13,183 +13,105 @@ export const AlertPane: IComponent = () => {
   //fetch data here
   // TODO: integrate with backend
 
-  const { alerts, fetchAllAlerts } = useListStore();
+  // const { alerts, fetchAllAlerts } = useListStore();
 
-  const fetchAllData = useCallback(async () => {
-    if (!alerts) fetchAllAlerts(1, 100);
+  // const fetchAllData = useCallback(async () => {
+  //   if (!alerts) fetchAllAlerts(1, 100);
 
-    console.log({ alerts });
-  }, [fetchAllAlerts, alerts]);
-  useEffect(() => {
-    fetchAllData();
-  }, [fetchAllData]);
+  //   console.log({ alerts });
+  // }, [fetchAllAlerts, alerts]);
+  // useEffect(() => {
+  //   fetchAllData();
+  //   console.log({ alerts });
+  // }, [fetchAllData]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const alerts: {
+    type: string;
+    value: string;
+    threshold: string;
+    createdAt: string;
+    updatedAt: string;
+  }[] = [
+    {
+      type: "temperature",
+      value: "77.97195937982355",
+      threshold: "30",
+      createdAt: "2023-05-05T09:13:46.85597Z",
+      updatedAt: "2023-05-05T09:13:46.85597Z",
+    },
+    {
+      type: "temperature",
+      value: "77.97195937982355",
+      threshold: "30",
+      createdAt: "2023-05-05T09:13:46.85597Z",
+      updatedAt: "2023-05-05T09:13:46.85597Z",
+    },
+    {
+      type: "temperature",
+      value: "77.97195937982355",
+      threshold: "30",
+      createdAt: "2023-05-05T09:13:46.85597Z",
+      updatedAt: "2023-05-05T09:13:46.85597Z",
+    },
+    {
+      type: "temperature",
+      value: "77.97195937982355",
+      threshold: "30",
+      createdAt: "2023-05-05T09:13:46.85597Z",
+      updatedAt: "2023-05-05T09:13:46.85597Z",
+    },
+    {
+      type: "temperature",
+      value: "77.97195937982355",
+      threshold: "30",
+      createdAt: "2023-05-05T09:13:46.85597Z",
+      updatedAt: "2023-05-05T09:13:46.85597Z",
+    },
+  ];
 
-  // const renderHeader = useMemo(
-  //   () => (
-  //     <tr className="text-xs text-[#667085] bg-gray-100  font-normal">
-  //       <th className="p-4">ID</th>
-  //       <th className="p-4">Giá trị</th>
-  //       <th className="p-4">Ngưỡng</th>
-  //       <th className="p-4">Trạng thái</th>
-  //       <th className="p-4">Thời gian</th>
-  //     </tr>
-  //   ),
-  //   []
-  // );
+  const renderHeader = useMemo(
+    () => (
+      <tr className="text-xs text-[#667085] bg-gray-100 font-normal">
+        <th className="p-4">ID</th>
+        <th className="p-4">Loại</th>
+        <th className="p-4">Giá trị</th>
+        <th className="p-4">Ngưỡng</th>
+        <th className="p-4">Tạo lúc</th>
+        <th className="p-4">Cập nhật lúc</th>
+      </tr>
+    ),
+    []
+  );
 
-  // const renderTemperature = useMemo(
-  //   () =>
-  //     Temperature.map((item, index) => (
-  //       <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-  //         <td className="px-6 py-2">{index + 1}</td>
-  //         <td className="px-6 py-2">{item.value}</td>
-  //         <td className="px-6 py-2">{item.threshold}</td>
-  //         <td className="px-6 py-2">{item.Status}</td>
-  //         <td className="px-6 py-2">{item.time}</td>
-  //       </tr>
-  //     )),
-  //   [Temperature]
-  // );
-
-  // const renderSoilmoisture = useMemo(
-  //   () =>
-  //     Soilmoisture.map((item, index) => (
-  //       <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-  //         <td className="px-6 py-2">{index + 1}</td>
-  //         <td className="px-6 py-2">{item.value}</td>
-  //         <td className="px-6 py-2">{item.threshold}</td>
-  //         <td className="px-6 py-2">{item.Status}</td>
-  //         <td className="px-6 py-2">{item.time}</td>
-  //       </tr>
-  //     )),
-  //   [Soilmoisture]
-  // );
-
-  // const renderSmoke = useMemo(
-  //   () =>
-  //     Smoke.map((item, index) => (
-  //       <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-  //         <td className="px-6 py-2">{index + 1}</td>
-  //         <td className="px-6 py-2">{item.value}</td>
-  //         <td className="px-6 py-2">{item.threshold}</td>
-  //         <td className="px-6 py-2">{item.Status}</td>
-  //         <td className="px-6 py-2">{item.time}</td>
-  //       </tr>
-  //     )),
-  //   [Smoke]
-  // );
-
-  // const renderInfrared = useMemo(
-  //   () =>
-  //     Infrared.map((item, index) => (
-  //       <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-  //         <td className="px-6 py-2">{index + 1}</td>
-  //         <td className="px-6 py-2">{item.value}</td>
-  //         <td className="px-6 py-2">{item.threshold}</td>
-  //         <td className="px-6 py-2">{item.Status}</td>
-  //         <td className="px-6 py-2">{item.time}</td>
-  //       </tr>
-  //     )),
-  //   [Infrared]
-  // );
-
-  // const data = [
-  //   {
-  //     label: "Nhiệt độ",
-  //     value: "temperature",
-  //     children: (
-  //       <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
-  //         <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
-  //           {renderHeader}
-  //         </thead>
-  //         <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-  //           {renderTemperature}
-  //         </tbody>
-  //       </table>
-  //     ),
-  //   },
-  //   {
-  //     label: "Độ ẩm đất",
-  //     value: "soilmoisture",
-  //     children: (
-  //       <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
-  //         <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
-  //           {renderHeader}
-  //         </thead>
-  //         <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-  //           {renderSoilmoisture}
-  //         </tbody>
-  //       </table>
-  //     ),
-  //   },
-  //   {
-  //     label: "Khói",
-  //     value: "smoke",
-  //     children: (
-  //       <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
-  //         <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
-  //           {renderHeader}
-  //         </thead>
-  //         <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-  //           {renderSmoke}
-  //         </tbody>
-  //       </table>
-  //     ),
-  //   },
-  //   {
-  //     label: "Hồng ngoại",
-  //     value: "infrared",
-  //     children: (
-  //       <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400">
-  //         <thead className=" text-gray-900 bg-gray-600 dark:bg-gray-700 dark:text-gray-400">
-  //           {renderHeader}
-  //         </thead>
-  //         <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-  //           {renderInfrared}
-  //         </tbody>
-  //       </table>
-  //     ),
-  //   },
-  // ];
+  const renderValue = useMemo(
+    () =>
+      alerts.map((item, index) => (
+        <tr key={index} className="bg-white text-[#667085] dark:bg-white">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.type}</td>
+          <td className="px-6 py-2">{item.value}</td>
+          <td className="px-6 py-2">{item.threshold}</td>
+          <td className="px-6 py-2">{item.createdAt}</td>
+          <td className="px-6 py-2">{item.updatedAt}</td>
+        </tr>
+      )),
+    [alerts]
+  );
 
   return (
-    <main className="space-y-1">
+    <main className="space-y-1 p-8">
       <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
         <h1>Smart Home</h1>
-        <h1>10:06 AM, Mar 2 2023</h1>
+        <h1>{new Date().toDateString()}</h1>
       </div>
-      {/* <Tabs>
-        <TabsHeader
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
-        >
-          {data.map(({ label, value }) => (
-            <Tab
-              key={value}
-              value={value}
-              className={cx("p-3 font-bold rounded-inherit")}
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
-            >
-              {label}
-            </Tab>
-          ))}
-        </TabsHeader>
-        <TabsBody
-          className="mt-4"
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
-        >
-          {data.map(({ value, children }) => (
-            <TabPanel key={value} value={value} className="bg-white rounded-lg">
-              {children}
-            </TabPanel>
-          ))}
-        </TabsBody>
-      </Tabs> */}
+      <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
+        <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
+          {renderHeader}
+        </thead>
+        <tbody className=" font-medium whitespace-nowrap dark:text-white ">
+          {renderValue}
+        </tbody>
+      </table>
     </main>
   );
 };

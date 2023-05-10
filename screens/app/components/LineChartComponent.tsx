@@ -10,7 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -66,14 +66,20 @@ export const LineChart: IComponent<{
   };
 
   const { data, fetchAllSensorData } = useSensorDataStore();
+  const [timeframe, setTimeframe] = useState<string>("24h");
   const fetchData = useCallback(async () => {
     if (data[monitorType]?.length > 0) return;
     const now = new Date();
-    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); //
+    let twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); //
+    if (timeframe === "1w") {
+      twentyFourHoursAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    } else if (timeframe === "30d") {
+      twentyFourHoursAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
     const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
     const to = now.toISOString().replace("Z", "+00:00");
     await fetchAllSensorData(monitorType, from, to);
-  }, [data, fetchAllSensorData, monitorType]);
+  }, [data, fetchAllSensorData, monitorType, timeframe]);
 
   useEffect(() => {
     fetchData();
@@ -109,10 +115,14 @@ export const LineChart: IComponent<{
             nonce={undefined}
             onResizeCapture={undefined}
             className="!min-w-[100px]"
+            value={timeframe}
+            onChange={(e) =>
+              e?.target && setTimeframe(e.target.value as string)
+            }
           >
-            <Option>Last 24h</Option>
-            <Option>Last week</Option>
-            <Option>Last 30 days</Option>
+            <Option value="24h">Last 24h</Option>
+            <Option value="1w">Last week</Option>
+            <Option value="30d">Last 30 days</Option>
           </Select>
         </div>
       </div>

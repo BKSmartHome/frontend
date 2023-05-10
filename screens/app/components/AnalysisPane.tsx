@@ -66,7 +66,7 @@ export const AnalysisPane: IComponent = () => {
     <div className="p-8">
       <div className="text-white text-4xl justify-between font-semibold flex gap-2 mb-8">
         <h1>Smart Home</h1>
-        <h1>{new Date().toLocaleDateString()}</h1>
+        <h1>{new Date().toDateString()}</h1>
       </div>
       {renderChart()}
     </div>
