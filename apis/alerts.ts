@@ -6,7 +6,7 @@ export const listAllAlertsApi = async (
   pageSize: number
 ): Promise<{
   error?: string;
-  data?: ISensorData[];
+  data?: IAlertData[];
   status: number;
 }> => {
   const url = `${API_URL}/api/alert/list?page_id=${pageId}&page_size=${pageSize}`;
@@ -16,7 +16,7 @@ export const listAllAlertsApi = async (
   };
 
   try {
-    const result = await request<Record<never, never>, ISensorData[]>(
+    const result = await request<Record<never, never>, IAlertData[]>(
       url,
       options
     );

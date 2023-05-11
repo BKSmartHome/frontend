@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { cx } from "@utils/tools";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 interface DialogProps {
   open: boolean;
@@ -38,13 +38,27 @@ export const SettingPane: IComponent = () => {
 
   const renderDialog = () => {
     return (
-      <Dialog open={isOpen} onClose={handleClose}>
-        <DialogHeader>
+      <Dialog
+        open={isOpen}
+        handler={handleClose}
+        nonce={undefined}
+        onResize={undefined}
+        onResizeCapture={undefined}
+      >
+        <DialogHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <Typography variant="h5" className="flex justify-center items-center">
             Thiết lập thông báo
           </Typography>
         </DialogHeader>
-        <DialogBody>
+        <DialogBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <Typography variant="h6"> Tên người nhận </Typography>
           <Input
             type="text"
@@ -55,6 +69,9 @@ export const SettingPane: IComponent = () => {
             className={
               "rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500 "
             }
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
           />
           <Typography variant="h6" className="pt-3">
             {" "}
@@ -70,6 +87,9 @@ export const SettingPane: IComponent = () => {
             containerProps={{
               className: "min-w-0",
             }}
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
           />
           <Typography variant="h6" className="pt-3">
             {" "}
@@ -81,38 +101,60 @@ export const SettingPane: IComponent = () => {
               label="Thông báo về cảm biến nhiệt độ"
               color="purple"
               defaultChecked={false}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Switch
               id="light"
               label="Thông báo về cảm biến ánh sáng"
               color="purple"
               defaultChecked={false}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Switch
-              id="soilmoisture"
+              id="humidity"
               label="Thông báo về cảm biến độ ẩm đất"
               color="purple"
               defaultChecked={false}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Switch
               id="smoke"
               label="Thông báo về cảm biến khói"
               color="purple"
               defaultChecked={false}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Switch
               id="infrared"
               label="Thông báo về cảm biến hồng ngoại"
               color="purple"
               defaultChecked={false}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
           </div>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <Button
             variant="text"
             onClick={handleClose}
             className="mr-1 text-[#667085] hover:bg-gray-300"
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
           >
             <span> Hủy bỏ </span>
           </Button>
@@ -120,6 +162,9 @@ export const SettingPane: IComponent = () => {
             className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
             size="lg"
             onClick={handleClose}
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
           >
             <span> Xác nhận </span>
           </Button>
@@ -170,6 +215,9 @@ export const SettingPane: IComponent = () => {
               onClick={handleOpen}
               size="lg"
               className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             >
               Sửa
             </Button>
@@ -292,6 +340,9 @@ export const SettingPane: IComponent = () => {
               onClick={handleOpen}
               size="lg"
               className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
             >
               Đăng ký
             </Button>

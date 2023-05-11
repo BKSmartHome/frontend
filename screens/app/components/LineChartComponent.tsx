@@ -22,6 +22,8 @@ ChartJS.register(
   Tooltip
 );
 
+type TTimeOptions = "24h" | "1w" | "30d";
+
 export const LineChart: IComponent<{
   monitorType: TMonitorSensorType;
 }> = ({ monitorType = "temperature" }) => {
@@ -66,29 +68,31 @@ export const LineChart: IComponent<{
   };
 
   const { data, fetchAllSensorData } = useSensorDataStore();
-  const [timeframe, setTimeframe] = useState<string>("24h");
+  const [timeOption, setTimeOption] = useState<TTimeOptions>("24h");
   const fetchData = useCallback(async () => {
-    if (data[monitorType]?.length > 0) return;
     const now = new Date();
     let twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); //
-    if (timeframe === "1w") {
+    if (timeOption === ("1w" as TTimeOptions)) {
       twentyFourHoursAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    } else if (timeframe === "30d") {
+    } else if (timeOption === ("30d" as TTimeOptions)) {
       twentyFourHoursAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
     const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
     const to = now.toISOString().replace("Z", "+00:00");
-    await fetchAllSensorData(monitorType, from, to);
-  }, [data, fetchAllSensorData, monitorType, timeframe]);
+    fetchAllSensorData(monitorType, from, to);
+  }, [fetchAllSensorData, monitorType, timeOption]);
 
   useEffect(() => {
     fetchData();
-  }, [data, fetchData]);
+  }, [fetchData]);
   const chartData = useMemo(
     () => ({
       labels: data
-        ? data[monitorType]?.map((d: any) =>
-            new Date(d.createdAt).toLocaleTimeString()
+        ? data[monitorType]?.map(
+            (d: any) =>
+              new Date(d.createdAt).toLocaleTimeString() +
+              " " +
+              new Date(d.createdAt).toLocaleDateString()
           )
         : [],
       datasets: [
@@ -115,10 +119,8 @@ export const LineChart: IComponent<{
             nonce={undefined}
             onResizeCapture={undefined}
             className="!min-w-[100px]"
-            value={timeframe}
-            onChange={(e) =>
-              e?.target && setTimeframe(e.target.value as string)
-            }
+            value={timeOption}
+            onChange={(v) => v && setTimeOption(v as TTimeOptions)}
           >
             <Option value="24h">Last 24h</Option>
             <Option value="1w">Last week</Option>
