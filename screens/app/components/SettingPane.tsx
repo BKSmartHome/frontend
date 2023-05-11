@@ -1,4 +1,11 @@
 import {
+  createReceiverApi,
+  deleteReceiverApi,
+  listAllReceiversApi,
+} from "@apis/receivers";
+import { LoadableButton } from "@components/LoadableButton";
+import { ToastTemplate } from "@configs/toast";
+import {
   Button,
   Card,
   CardBody,
@@ -18,7 +25,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { cx } from "@utils/tools";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface DialogProps {
   open: boolean;
@@ -27,6 +34,12 @@ interface DialogProps {
 
 export const SettingPane: IComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [receivers, setReceivers] = useState<IReceiver[] | null>(null);
+  const [inputProps, setInputProps] = useState<{
+    name: string;
+    email: string;
+  }>({ name: "", email: "" });
+  const [loading, setLoading] = useState(false);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -35,6 +48,58 @@ export const SettingPane: IComponent = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await listAllReceiversApi();
+      if (res.status !== 200) {
+        throw new Error("Error");
+      }
+      res.data && setReceivers(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [setReceivers]);
+
+  const handleCreateNewReceiver = async () => {
+    setLoading(true);
+    try {
+      const res = await createReceiverApi(inputProps);
+      if (res.status !== 200) {
+        throw new Error("Error");
+      }
+      if (res.data) {
+        handleClose();
+        ToastTemplate.success("Tạo mới người nhận thành công");
+        fetchData();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteReceiver = async (name: string) => {
+    setLoading(true);
+    try {
+      const res = await deleteReceiverApi(name);
+      if (res.status !== 200) {
+        throw new Error("Error");
+      }
+      if (res.data) {
+        handleClose();
+        ToastTemplate.success("Xóa người nhận thành công");
+        fetchData();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const renderDialog = () => {
     return (
@@ -62,16 +127,15 @@ export const SettingPane: IComponent = () => {
           <Typography variant="h6"> Tên người nhận </Typography>
           <Input
             type="text"
-            placeholder="Nhập tên người nhận"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            className={
-              "rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500 "
-            }
+            label="Nhập tên người nhận"
+            className={"rounded-md"}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
+            value={inputProps.name}
+            onChange={(e) =>
+              setInputProps({ ...inputProps, name: e.target.value })
+            }
           />
           <Typography variant="h6" className="pt-3">
             {" "}
@@ -79,17 +143,15 @@ export const SettingPane: IComponent = () => {
           </Typography>
           <Input
             type="mail"
-            placeholder="Nhập email người nhận"
-            className="rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            containerProps={{
-              className: "min-w-0",
-            }}
+            label="Nhập email người nhận"
+            className="rounded-md"
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
+            value={inputProps.email}
+            onChange={(e) =>
+              setInputProps({ ...inputProps, email: e.target.value })
+            }
           />
           <Typography variant="h6" className="pt-3">
             {" "}
@@ -99,8 +161,9 @@ export const SettingPane: IComponent = () => {
             <Switch
               id="temperature"
               label="Thông báo về cảm biến nhiệt độ"
-              color="purple"
-              defaultChecked={false}
+              color="indigo"
+              defaultChecked={true}
+              disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
@@ -108,8 +171,9 @@ export const SettingPane: IComponent = () => {
             <Switch
               id="light"
               label="Thông báo về cảm biến ánh sáng"
-              color="purple"
-              defaultChecked={false}
+              color="indigo"
+              defaultChecked={true}
+              disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
@@ -117,8 +181,9 @@ export const SettingPane: IComponent = () => {
             <Switch
               id="humidity"
               label="Thông báo về cảm biến độ ẩm đất"
-              color="purple"
-              defaultChecked={false}
+              color="indigo"
+              defaultChecked={true}
+              disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
@@ -126,8 +191,9 @@ export const SettingPane: IComponent = () => {
             <Switch
               id="smoke"
               label="Thông báo về cảm biến khói"
-              color="purple"
-              defaultChecked={false}
+              color="indigo"
+              defaultChecked={true}
+              disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
@@ -135,8 +201,9 @@ export const SettingPane: IComponent = () => {
             <Switch
               id="infrared"
               label="Thông báo về cảm biến hồng ngoại"
-              color="purple"
-              defaultChecked={false}
+              color="indigo"
+              defaultChecked={true}
+              disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
@@ -158,16 +225,17 @@ export const SettingPane: IComponent = () => {
           >
             <span> Hủy bỏ </span>
           </Button>
-          <Button
-            className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+          <LoadableButton
+            className="py-2 px-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-500"
             size="lg"
-            onClick={handleClose}
+            loading={loading}
+            onClick={() => handleCreateNewReceiver()}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
           >
             <span> Xác nhận </span>
-          </Button>
+          </LoadableButton>
         </DialogFooter>
       </Dialog>
     );
@@ -175,56 +243,39 @@ export const SettingPane: IComponent = () => {
 
   const renderHeader = useMemo(
     () => (
-      <tr className="text-xs text-[#667085] bg-gray-100 font-normal">
+      <tr className="text-lg text-[#667085] bg-gray-100 font-normal">
         <th className="p-4">STT</th>
         <th className="p-4">Tên</th>
-        <th className="p-4">Số điện thoại</th>
+        <th className="p-4">Email</th>
         <th className="p-4"></th>
       </tr>
     ),
     []
   );
 
-  const notificationData: {
-    name: string;
-    phone: string;
-  }[] = [
-    {
-      name: "Trí mập",
-      phone: "0987654321",
-    },
-    {
-      name: "Trí mập",
-      phone: "0987654321",
-    },
-    {
-      name: "Trí mập",
-      phone: "0987654321",
-    },
-  ];
-
   const renderNotification = useMemo(
     () =>
-      notificationData.map((item, index) => (
-        <tr key={index} className="bg-white text-[#667085] dark:bg-white">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.name}</td>
-          <td className="px-6 py-2">{item.phone}</td>
-          <td className="px-6 py-2">
-            <Button
-              onClick={handleOpen}
+      receivers?.map((item, index) => (
+        <tr key={index} className="bg-white text-[#667085] dark:bg-white !py-4">
+          <td className="px-6 py-6 text-lg">{index + 1}</td>
+          <td className="px-6 py-6 text-lg">{item.name}</td>
+          <td className="px-6 py-6 text-lg">{item.email}</td>
+          <td className="px-6 py-6 text-lg flex justify-center">
+            <LoadableButton
+              onClick={() => handleDeleteReceiver(item.name)}
               size="lg"
-              className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+              loading={loading}
+              className="py-2 px-4 bg-red-600 text-white font-semibold rounded-md hover:bg-red-400"
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
             >
-              Sửa
-            </Button>
+              Xóa
+            </LoadableButton>
           </td>
         </tr>
       )),
-    [notificationData]
+    [receivers]
   );
 
   const data = [
@@ -265,13 +316,7 @@ export const SettingPane: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
                 type="text"
-                placeholder="Nhập mật khẩu cũ"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                className={
-                  "rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500 "
-                }
+                label="Nhập mật khẩu cũ"
               />
               <Typography variant="h6" className="pt-3">
                 {" "}
@@ -279,14 +324,8 @@ export const SettingPane: IComponent = () => {
               </Typography>
               <Input
                 type="text"
-                placeholder="Nhập mật khẩu mới"
-                className="rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                containerProps={{
-                  className: "min-w-0",
-                }}
+                label="Nhập mật khẩu mới"
+                className="rounded-md"
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
@@ -297,14 +336,8 @@ export const SettingPane: IComponent = () => {
               </Typography>
               <Input
                 type="text"
-                placeholder="Nhập lại mật khẩu mới"
-                className="rounded-md !border-t-purple-gray-200 focus:!border-t-purple-500"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                containerProps={{
-                  className: "min-w-0",
-                }}
+                label="Nhập lại mật khẩu mới"
+                className="rounded-md"
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
@@ -317,7 +350,7 @@ export const SettingPane: IComponent = () => {
               onResizeCapture={undefined}
             >
               <Button
-                className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+                className="py-2 px-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-700"
                 size="lg"
                 nonce={undefined}
                 onResize={undefined}
@@ -339,7 +372,7 @@ export const SettingPane: IComponent = () => {
             <Button
               onClick={handleOpen}
               size="lg"
-              className="py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700"
+              className="py-2 px-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-500"
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
