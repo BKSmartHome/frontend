@@ -2,14 +2,15 @@ import { API_URL } from "@env";
 import { request } from "@utils/request";
 
 export const listAllAlertsApi = async (
-  pageId: number,
+  from: string,
+  to: string,
   pageSize: number
 ): Promise<{
   error?: string;
   data?: IAlertData[];
   status: number;
 }> => {
-  const url = `${API_URL}/api/alert/list?page_id=${pageId}&page_size=${pageSize}`;
+  const url = `${API_URL}/api/alert/list?from=${from}&to=${to}&page_size=${pageSize}`;
   const options: RequestOptions<Record<never, never>> = {
     method: "get",
     headers: {},
