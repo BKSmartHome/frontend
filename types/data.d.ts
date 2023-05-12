@@ -7,6 +7,6 @@ interface ISensorData {
   deviceId: string;
   status: TSensorStatus;
   value: string;
-  createAt: string;
+  createdAt: string;
   updatedAt: string;
 }

@@ -48,6 +48,11 @@ export const LineChart: IComponent<{
             size: 20,
           },
         },
+        gridLines: {
+          display: true,
+          color: "gray",
+          zeroLineColor: "white",
+        },
       },
       x: {
         title: {
@@ -89,7 +94,7 @@ export const LineChart: IComponent<{
     () => ({
       labels: data
         ? data[monitorType]?.map(
-            (d: any) =>
+            (d: ISensorData) =>
               new Date(d.createdAt).toLocaleTimeString() +
               " " +
               new Date(d.createdAt).toLocaleDateString()
@@ -98,7 +103,7 @@ export const LineChart: IComponent<{
       datasets: [
         {
           label: "Temperature",
-          data: data[monitorType]?.map((d: any) => d.value),
+          data: data[monitorType]?.map((d: ISensorData) => d.value),
           fill: false,
           tension: 0.1,
           borderColor: "#0E9CFF",
