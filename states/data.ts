@@ -1,6 +1,6 @@
 import { listAllDataApi } from "@apis/data";
 import { ToastTemplate } from "@configs/toast";
-import create from "zustand";
+import { create } from "zustand";
 
 interface ISensorDataState {
   loading: boolean;

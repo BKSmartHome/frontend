@@ -1,5 +1,5 @@
 import { MqttClient } from "mqtt";
-import create from "zustand";
+import { create } from "zustand";
 
 interface IEmqxState {
   client: MqttClient | null;

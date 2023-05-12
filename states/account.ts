@@ -2,7 +2,7 @@ import { loginApi } from "@apis/auth";
 import { ROUTER } from "@configs/router";
 import { ToastTemplate } from "@configs/toast";
 import { NextRouter } from "next/router";
-import create from "zustand";
+import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface IAccountState {
