@@ -15,7 +15,7 @@ const SwitchButton: IComponent<{
           type="checkbox"
           id="checkbox"
           onClick={() => onToggle()}
-          checked={status === "ON"}
+          defaultChecked={status === "ON"}
         />
         <div
           className={`${

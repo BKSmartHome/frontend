@@ -114,6 +114,7 @@ export const DashboardPane: IComponent = () => {
     }
     client.publish(topic, msg);
   };
+  // "wss://127.0.0.1:8084/mqtt"
 
   const mqttConnectionLayoutParams = useMemo(
     () => ({
@@ -122,6 +123,9 @@ export const DashboardPane: IComponent = () => {
         username: NEXT_PUBLIC_MQTT_USERNAME,
         password: NEXT_PUBLIC_MQTT_PASSWORD,
         clientId: NEXT_PUBLIC_MQTT_CLIENT_ID,
+        clean: true,
+        reconnectPeriod: 1000, // ms
+        connectTimeout: 30 * 1000, // ms
       },
       topicHandlers: incomingMessageHandler.current,
       onConnectedHandler: (client: any) => setMqttClient(client),

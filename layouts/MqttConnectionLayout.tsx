@@ -41,6 +41,7 @@ export const MqttConnectionLayout: IComponent<IMqttConnectionProps> = ({
       clientRef.current = options
         ? MQTT.connect(uri, options)
         : MQTT.connect(uri);
+      console.log({ options });
     } catch (error) {
       console.error("error when connect", error);
     }
@@ -65,6 +66,7 @@ export const MqttConnectionLayout: IComponent<IMqttConnectionProps> = ({
 
     client?.on("connect", () => {
       if (onConnectedHandler) onConnectedHandler(client);
+      console.log("connected");
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
