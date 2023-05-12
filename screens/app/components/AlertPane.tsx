@@ -5,7 +5,12 @@ export const AlertPane: IComponent = () => {
   const { alerts, fetchAllAlerts } = useAlertStore();
 
   const fetchAllData = useCallback(async () => {
-    if (!alerts) fetchAllAlerts(1, 100);
+    if (!alerts) {
+      const from = "2023-05-05T04:22:41+00:00";
+      const to = "2023-11-05T04:25:20+00:00";
+      const pageSize = 100;
+      fetchAllAlerts(from, to, pageSize);
+    }
   }, [fetchAllAlerts, alerts]);
   useEffect(() => {
     fetchAllData();

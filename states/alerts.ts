@@ -5,16 +5,16 @@ import { create } from "zustand";
 interface IAlertState {
   loading: boolean;
   alerts?: IAlertData[];
-  fetchAllAlerts: (pageId: number, pageSize: number) => Promise<void>;
+  fetchAllAlerts: (from: string, to: string, pageSize: number) => Promise<void>;
 }
 
 export const useAlertStore = create<IAlertState>()((set) => ({
   loading: false,
 
-  fetchAllAlerts: async (pageId: number, pageSize: number) => {
+  fetchAllAlerts: async (from: string, to: string) => {
     set({ loading: true });
     try {
-      const res = await listAllAlertsApi(pageId, pageSize);
+      const res = await listAllAlertsApi(from, to);
       if (res.status !== 200) {
         ToastTemplate.fail("Failed to fetch data");
       } else if (res.status === 200) {
