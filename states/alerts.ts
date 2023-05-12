@@ -11,10 +11,10 @@ interface IAlertState {
 export const useAlertStore = create<IAlertState>()((set, get) => ({
   loading: false,
 
-  fetchAllAlerts: async (from: string, to: string, pageSize: number) => {
+  fetchAllAlerts: async (from: string, to: string) => {
     set({ loading: true });
     try {
-      const res = await listAllAlertsApi(from, to, pageSize);
+      const res = await listAllAlertsApi(from, to);
       if (res.status !== 200) {
         ToastTemplate.fail("Failed to fetch data");
       } else if (res.status === 200) {
