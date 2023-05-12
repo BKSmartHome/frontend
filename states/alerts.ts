@@ -1,6 +1,6 @@
 import { listAllAlertsApi } from "@apis/alerts";
 import { ToastTemplate } from "@configs/toast";
-import create from "zustand";
+import { create } from "zustand";
 
 interface IAlertState {
   loading: boolean;
@@ -8,7 +8,7 @@ interface IAlertState {
   fetchAllAlerts: (from: string, to: string, pageSize: number) => Promise<void>;
 }
 
-export const useAlertStore = create<IAlertState>()((set, get) => ({
+export const useAlertStore = create<IAlertState>()((set) => ({
   loading: false,
 
   fetchAllAlerts: async (from: string, to: string) => {

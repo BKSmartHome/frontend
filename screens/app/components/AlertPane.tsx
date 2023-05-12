@@ -8,20 +8,18 @@ export const AlertPane: IComponent = () => {
   const { alerts, fetchAllAlerts } = useAlertStore();
   const [timeOption, setTimeOption] = useState<TTimeOptions>("24h");
   const fetchAllData = useCallback(async () => {
-    if (!alerts) {
-      const now = new Date();
-      let twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      if (timeOption === "1w") {
-        twentyFourHoursAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      } else if (timeOption === "30d") {
-        twentyFourHoursAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-      }
-      const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
-      const to = now.toISOString().replace("Z", "+00:00");
-      const pageSize = 100;
-      fetchAllAlerts(from, to, pageSize);
+    const now = new Date();
+    let twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    if (timeOption === "1w") {
+      twentyFourHoursAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    } else if (timeOption === "30d") {
+      twentyFourHoursAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
-  }, [fetchAllAlerts, alerts, timeOption]);
+    const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
+    const to = now.toISOString().replace("Z", "+00:00");
+    const pageSize = 100;
+    fetchAllAlerts(from, to, pageSize);
+  }, [fetchAllAlerts, timeOption]);
 
   useEffect(() => {
     fetchAllData();

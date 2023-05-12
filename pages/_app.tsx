@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>{title}</title>
         </Head>
         {/* <AuthenticationHOC> */}
-          {getLayout(<PageContent {...pageProps} />, pageProps)}
+        {getLayout(<PageContent {...pageProps} />, pageProps)}
         {/* </AuthenticationHOC> */}
       </MainLayout>
 
