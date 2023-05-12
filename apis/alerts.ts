@@ -3,24 +3,33 @@ import { request } from "@utils/request";
 
 export const listAllAlertsApi = async (
   from: string,
-  to: string,
-  pageSize: number
+  to: string
 ): Promise<{
   error?: string;
   data?: IAlertData[];
   status: number;
 }> => {
-  const url = `${API_URL}/api/alert/list?from=${from}&to=${to}&page_size=${pageSize}`;
-  const options: RequestOptions<Record<never, never>> = {
-    method: "get",
+  const url = `${API_URL}/api/alert/list`;
+  const options: RequestOptions<{
+    from: string;
+    to: string;
+  }> = {
+    method: "post",
+    data: {
+      from,
+      to,
+    },
     headers: {},
   };
 
   try {
-    const result = await request<Record<never, never>, IAlertData[]>(
-      url,
-      options
-    );
+    const result = await request<
+      {
+        from: string;
+        to: string;
+      },
+      IAlertData[]
+    >(url, options);
     return Promise.resolve({
       data: result.data,
       status: result.status,
