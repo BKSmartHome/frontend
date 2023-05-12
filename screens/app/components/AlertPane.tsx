@@ -1,17 +1,26 @@
+import { Option, Select } from "@material-tailwind/react";
 import { useAlertStore } from "@states/alerts";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+type TTimeOptions = "24h" | "1w" | "30d";
 
 export const AlertPane: IComponent = () => {
   const { alerts, fetchAllAlerts } = useAlertStore();
-
+  const [timeOption, setTimeOption] = useState<TTimeOptions>("24h");
   const fetchAllData = useCallback(async () => {
-    if (!alerts) {
-      const from = "2023-05-05T04:22:41+00:00";
-      const to = "2023-11-05T04:25:20+00:00";
-      const pageSize = 100;
-      fetchAllAlerts(from, to, pageSize);
+    const now = new Date();
+    let twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    if (timeOption === "1w") {
+      twentyFourHoursAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    } else if (timeOption === "30d") {
+      twentyFourHoursAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
-  }, [fetchAllAlerts, alerts]);
+    const from = twentyFourHoursAgo.toISOString().replace("Z", "+00:00");
+    const to = now.toISOString().replace("Z", "+00:00");
+    const pageSize = 100;
+    fetchAllAlerts(from, to, pageSize);
+  }, [fetchAllAlerts, timeOption]);
+
   useEffect(() => {
     fetchAllData();
   }, [fetchAllData]);
@@ -59,6 +68,20 @@ export const AlertPane: IComponent = () => {
         <h1>{new Date().toDateString()}</h1>
       </div>
       <div className="h-[70vh] overflow-y-scroll rounded-lg overflow-x-hidden">
+        <div className="!w-[30%] mb-4">
+          <Select
+            onResize={undefined}
+            nonce={undefined}
+            onResizeCapture={undefined}
+            className="!min-w-[100px] bg-white"
+            value={timeOption}
+            onChange={(v) => v && setTimeOption(v as TTimeOptions)}
+          >
+            <Option value="24h">Last 24h</Option>
+            <Option value="1w">Last week</Option>
+            <Option value="30d">Last 30 days</Option>
+          </Select>
+        </div>
         <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
           <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
             {renderHeader}

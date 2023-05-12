@@ -110,7 +110,7 @@ export const LineChart: IComponent<{
   );
 
   return (
-    <div className="bg-white pt-8 pr-8">
+    <div className="bg-white py-4 pl-4">
       <div className="flex items-center justify-end">
         <div className="!w-[30%]">
           <Select
@@ -118,7 +118,7 @@ export const LineChart: IComponent<{
             onResize={undefined}
             nonce={undefined}
             onResizeCapture={undefined}
-            className="!min-w-[100px]"
+            className="!min-w-[100px] bg-white ml-0"
             value={timeOption}
             onChange={(v) => v && setTimeOption(v as TTimeOptions)}
           >

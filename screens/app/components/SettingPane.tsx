@@ -160,7 +160,7 @@ export const SettingPane: IComponent = () => {
               id="temperature"
               label="Thông báo về cảm biến nhiệt độ"
               color="indigo"
-              defaultChecked={true}
+              defaultChecked={false}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -170,7 +170,7 @@ export const SettingPane: IComponent = () => {
               id="light"
               label="Thông báo về cảm biến ánh sáng"
               color="indigo"
-              defaultChecked={true}
+              defaultChecked={false}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -180,7 +180,7 @@ export const SettingPane: IComponent = () => {
               id="humidity"
               label="Thông báo về cảm biến độ ẩm đất"
               color="indigo"
-              defaultChecked={true}
+              defaultChecked={false}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -190,7 +190,7 @@ export const SettingPane: IComponent = () => {
               id="smoke"
               label="Thông báo về cảm biến khói"
               color="indigo"
-              defaultChecked={true}
+              defaultChecked={false}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -200,7 +200,7 @@ export const SettingPane: IComponent = () => {
               id="infrared"
               label="Thông báo về cảm biến hồng ngoại"
               color="indigo"
-              defaultChecked={true}
+              defaultChecked={false}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
