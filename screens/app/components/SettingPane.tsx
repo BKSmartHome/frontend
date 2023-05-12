@@ -27,11 +27,6 @@ import {
 import { cx } from "@utils/tools";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-interface DialogProps {
-  open: boolean;
-  handleClose: () => void;
-}
-
 export const SettingPane: IComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [receivers, setReceivers] = useState<IReceiver[] | null>(null);
@@ -79,23 +74,26 @@ export const SettingPane: IComponent = () => {
     setLoading(false);
   };
 
-  const handleDeleteReceiver = async (name: string) => {
-    setLoading(true);
-    try {
-      const res = await deleteReceiverApi(name);
-      if (res.status !== 200) {
-        throw new Error("Error");
+  const handleDeleteReceiver = useCallback(
+    async (name: string) => {
+      setLoading(true);
+      try {
+        const res = await deleteReceiverApi(name);
+        if (res.status !== 200) {
+          throw new Error("Error");
+        }
+        if (res.data) {
+          handleClose();
+          ToastTemplate.success("Xóa người nhận thành công");
+          fetchData();
+        }
+      } catch (e) {
+        console.log(e);
       }
-      if (res.data) {
-        handleClose();
-        ToastTemplate.success("Xóa người nhận thành công");
-        fetchData();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    },
+    [setLoading, fetchData]
+  );
 
   useEffect(() => {
     fetchData();
@@ -275,7 +273,7 @@ export const SettingPane: IComponent = () => {
           </td>
         </tr>
       )),
-    [receivers]
+    [receivers, handleDeleteReceiver, loading]
   );
 
   const data = [
