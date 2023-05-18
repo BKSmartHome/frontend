@@ -50,9 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Head>
           <title>{title}</title>
         </Head>
-        {/* <AuthenticationHOC> */}
-        {getLayout(<PageContent {...pageProps} />, pageProps)}
-        {/* </AuthenticationHOC> */}
+        <AuthenticationHOC>
+          {getLayout(<PageContent {...pageProps} />, pageProps)}
+        </AuthenticationHOC>
       </MainLayout>
 
       <ToastContainer position={"bottom-right"} autoClose={3000} pauseOnHover />
