@@ -73,6 +73,7 @@ export const LineChart: IComponent<{
   };
 
   const { data, fetchAllSensorData } = useSensorDataStore();
+
   const [timeOption, setTimeOption] = useState<TTimeOptions>("24h");
   const fetchData = useCallback(async () => {
     const now = new Date();
@@ -90,6 +91,7 @@ export const LineChart: IComponent<{
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
   const chartData = useMemo(
     () => ({
       labels: data

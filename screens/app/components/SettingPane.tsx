@@ -114,7 +114,7 @@ export const SettingPane: IComponent = () => {
           onResizeCapture={undefined}
         >
           <Typography variant="h5" className="flex justify-center items-center">
-            Thiết lập thông báo
+            Notification settings
           </Typography>
         </DialogHeader>
         <DialogBody
@@ -122,10 +122,10 @@ export const SettingPane: IComponent = () => {
           onResize={undefined}
           onResizeCapture={undefined}
         >
-          <Typography variant="h6"> Tên người nhận </Typography>
+          <Typography variant="h6"> Name of receiver </Typography>
           <Input
             type="text"
-            label="Nhập tên người nhận"
+            label="Type name of receiver"
             className={"rounded-md"}
             nonce={undefined}
             onResize={undefined}
@@ -137,11 +137,11 @@ export const SettingPane: IComponent = () => {
           />
           <Typography variant="h6" className="pt-3">
             {" "}
-            Email người nhận{" "}
+            Email{" "}
           </Typography>
           <Input
             type="mail"
-            label="Nhập email người nhận"
+            label="Type email of receiver"
             className="rounded-md"
             nonce={undefined}
             onResize={undefined}
@@ -153,34 +153,25 @@ export const SettingPane: IComponent = () => {
           />
           <Typography variant="h6" className="pt-3">
             {" "}
-            Loại thông báo{" "}
+            Type of alerts{" "}
           </Typography>
           <div className="space-y-3 pt-2 flex flex-col">
             <Switch
               id="temperature"
-              label="Thông báo về cảm biến nhiệt độ"
+              label="Alert of temperature"
               color="indigo"
-              defaultChecked={false}
+              defaultChecked={true}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
             />
-            <Switch
-              id="light"
-              label="Thông báo về cảm biến ánh sáng"
-              color="indigo"
-              defaultChecked={false}
-              disabled={true}
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
-            />
+
             <Switch
               id="humidity"
-              label="Thông báo về cảm biến độ ẩm đất"
+              label="Alert of humidity"
               color="indigo"
-              defaultChecked={false}
+              defaultChecked={true}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -188,9 +179,9 @@ export const SettingPane: IComponent = () => {
             />
             <Switch
               id="smoke"
-              label="Thông báo về cảm biến khói"
+              label="Alert of fire"
               color="indigo"
-              defaultChecked={false}
+              defaultChecked={true}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -198,9 +189,9 @@ export const SettingPane: IComponent = () => {
             />
             <Switch
               id="infrared"
-              label="Thông báo về cảm biến hồng ngoại"
+              label="Alert of infrared"
               color="indigo"
-              defaultChecked={false}
+              defaultChecked={true}
               disabled={true}
               nonce={undefined}
               onResize={undefined}
@@ -221,7 +212,7 @@ export const SettingPane: IComponent = () => {
             onResize={undefined}
             onResizeCapture={undefined}
           >
-            <span> Hủy bỏ </span>
+            <span> Cancel </span>
           </Button>
           <LoadableButton
             className="py-2 px-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-500"
@@ -232,7 +223,7 @@ export const SettingPane: IComponent = () => {
             onResize={undefined}
             onResizeCapture={undefined}
           >
-            <span> Xác nhận </span>
+            <span> Confirm </span>
           </LoadableButton>
         </DialogFooter>
       </Dialog>
@@ -242,8 +233,8 @@ export const SettingPane: IComponent = () => {
   const renderHeader = useMemo(
     () => (
       <tr className="text-lg text-[#667085] bg-gray-100 font-normal">
-        <th className="p-4">STT</th>
-        <th className="p-4">Tên</th>
+        <th className="p-4">No</th>
+        <th className="p-4">Name</th>
         <th className="p-4">Email</th>
         <th className="p-4"></th>
       </tr>
@@ -268,7 +259,7 @@ export const SettingPane: IComponent = () => {
               onResize={undefined}
               onResizeCapture={undefined}
             >
-              Xóa
+              Delete
             </LoadableButton>
           </td>
         </tr>
@@ -278,7 +269,7 @@ export const SettingPane: IComponent = () => {
 
   const data = [
     {
-      label: "Mật khẩu",
+      label: "Password",
       value: "password",
       children: (
         <div className="flex justify-center w-full items-center">
@@ -300,7 +291,7 @@ export const SettingPane: IComponent = () => {
                 variant="h5"
                 className="flex justify-center items-center"
               >
-                Đổi mật khẩu
+                Update password
               </Typography>
             </CardHeader>
             <CardBody
@@ -308,21 +299,21 @@ export const SettingPane: IComponent = () => {
               onResize={undefined}
               onResizeCapture={undefined}
             >
-              <Typography variant="h6"> Mật khẩu cũ </Typography>
+              <Typography variant="h6"> Old password </Typography>
               <Input
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
                 type="text"
-                label="Nhập mật khẩu cũ"
+                label="Re-enter old password"
               />
               <Typography variant="h6" className="pt-3">
                 {" "}
-                Mật khẩu mới{" "}
+                New password{" "}
               </Typography>
               <Input
                 type="text"
-                label="Nhập mật khẩu mới"
+                label="Type new password"
                 className="rounded-md"
                 nonce={undefined}
                 onResize={undefined}
@@ -330,11 +321,11 @@ export const SettingPane: IComponent = () => {
               />
               <Typography variant="h6" className="pt-3">
                 {" "}
-                Xác nhận mật khẩu{" "}
+                Confirm{" "}
               </Typography>
               <Input
                 type="text"
-                label="Nhập lại mật khẩu mới"
+                label="Re-enter new password"
                 className="rounded-md"
                 nonce={undefined}
                 onResize={undefined}
@@ -354,7 +345,7 @@ export const SettingPane: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
               >
-                Xác nhận
+                Confirm
               </Button>
             </CardFooter>
           </Card>
@@ -362,7 +353,7 @@ export const SettingPane: IComponent = () => {
       ),
     },
     {
-      label: "Thông báo",
+      label: "Notification",
       value: "notification",
       children: (
         <>
@@ -375,19 +366,23 @@ export const SettingPane: IComponent = () => {
               onResize={undefined}
               onResizeCapture={undefined}
             >
-              Đăng ký
+              Register
             </Button>
             {renderDialog()}
           </div>
           <div className="flex justify-between items-center mb-2">
-            <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
-              <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
-                {renderHeader}
-              </thead>
-              <tbody className="font-medium whitespace-nowrap dark:text-white">
-                {renderNotification}
-              </tbody>
-            </table>
+            {receivers && receivers.length > 0 ? (
+              <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
+                <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
+                  {renderHeader}
+                </thead>
+                <tbody className="font-medium whitespace-nowrap dark:text-white">
+                  {renderNotification}
+                </tbody>
+              </table>
+            ) : (
+              <></>
+            )}
           </div>
         </>
       ),

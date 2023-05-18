@@ -30,10 +30,10 @@ export const AlertPane: IComponent = () => {
     () => (
       <tr className="text-xs text-[#667085] bg-gray-100 font-normal">
         <th className="p-4">ID</th>
-        <th className="p-4">Loại</th>
-        <th className="p-4">Giá trị</th>
-        <th className="p-4">Ngưỡng</th>
-        <th className="p-4">Thời gian</th>
+        <th className="p-4">Type</th>
+        <th className="p-4">Value</th>
+        <th className="p-4">Threshold</th>
+        <th className="p-4">Time</th>
         {/* <th className="p-4">Cập nhật lúc</th> */}
       </tr>
     ),
@@ -51,8 +51,10 @@ export const AlertPane: IComponent = () => {
           <tr key={index} className="bg-white text-[#667085] dark:bg-white">
             <td className="px-6 py-2">{index + 1}</td>
             <td className="px-6 py-2">{item.type}</td>
-            <td className="px-6 py-2">{item?.value ?? "NA"}</td>
-            <td className="px-6 py-2">{item?.threshold ?? "NA"}</td>
+            <td className="px-6 py-2">{item?.value ? item?.value : "NA"}</td>
+            <td className="px-6 py-2">
+              {item?.threshold ? item?.threshold : "NA"}
+            </td>
             <td className="px-6 py-2">{time}</td>
             {/* <td className="px-6 py-2">{item.updatedAt}</td> */}
           </tr>
@@ -68,28 +70,32 @@ export const AlertPane: IComponent = () => {
         <h1>{new Date().toDateString()}</h1>
       </div>
       <div className="h-[70vh] overflow-y-scroll rounded-lg overflow-x-hidden">
-        <div className="!w-[30%] mb-4">
-          <Select
-            onResize={undefined}
-            nonce={undefined}
-            onResizeCapture={undefined}
-            className="!min-w-[100px] bg-white"
-            value={timeOption}
-            onChange={(v) => v && setTimeOption(v as TTimeOptions)}
-          >
-            <Option value="24h">Last 24h</Option>
-            <Option value="1w">Last week</Option>
-            <Option value="30d">Last 30 days</Option>
-          </Select>
-        </div>
-        <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
-          <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
-            {renderHeader}
-          </thead>
-          <tbody className=" font-medium whitespace-nowrap dark:text-white ">
-            {renderValue}
-          </tbody>
-        </table>
+        {alerts && alerts?.length > 0 && (
+          <>
+            <div className="!w-[30%] mb-4">
+              <Select
+                onResize={undefined}
+                nonce={undefined}
+                onResizeCapture={undefined}
+                className="!min-w-[100px] bg-white"
+                value={timeOption}
+                onChange={(v) => v && setTimeOption(v as TTimeOptions)}
+              >
+                <Option value="24h">Last 24h</Option>
+                <Option value="1w">Last week</Option>
+                <Option value="30d">Last 30 days</Option>
+              </Select>
+            </div>
+            <table className="w-full text-sm text-center text-gray-900 dark:text-gray-400 rounded-lg bg-white overflow-hidden">
+              <thead className="text-gray-900 dark:bg-gray-700 dark:text-gray-400">
+                {renderHeader}
+              </thead>
+              <tbody className=" font-medium whitespace-nowrap dark:text-white ">
+                {renderValue}
+              </tbody>
+            </table>
+          </>
+        )}
       </div>
     </main>
   );
