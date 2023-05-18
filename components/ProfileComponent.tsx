@@ -28,7 +28,7 @@ export const ProfileComponent: IComponent = () => {
         <img
           className="block w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
           alt={username}
-          src={`https://pub-a3633e0d2fd446d7a5b3581d1f906c0f.r2.dev/student/1911071.png`}
+          src={`https://pub-a3633e0d2fd446d7a5b3581d1f906c0f.r2.dev/holder/1911071.png`}
         />
       </picture>
 
