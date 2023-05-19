@@ -104,7 +104,7 @@ export const LineChart: IComponent<{
         : [],
       datasets: [
         {
-          label: "Temperature",
+          label: monitorType,
           data: data[monitorType]?.map((d: ISensorData) => d.value),
           fill: false,
           tension: 0.1,

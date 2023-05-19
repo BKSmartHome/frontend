@@ -16,9 +16,7 @@ import { MqttConnectionLayout } from "@layouts/MqttConnectionLayout";
 import { cx } from "@utils/tools";
 import { MqttClient } from "mqtt";
 import Image from "next/image";
-import { ReactElement, useCallback, useMemo, useRef, useState } from "react";
-
-import { DeviceComponent } from "./DeviceComponent";
+import { ReactElement, useMemo, useRef, useState } from "react";
 
 interface DashboardDataProps {
   temperature: string;
